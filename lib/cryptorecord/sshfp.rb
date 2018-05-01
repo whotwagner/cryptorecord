@@ -29,16 +29,16 @@ require 'base64'
 # sshfp-dns-records. The ssh-host-keys are
 # read from files
 class Sshfp
-# @!attribute [r] [Integer] cipher
+# @!attribute [r] cipher
 #   stores the cipher. ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
-# @!attribute [r] [Integer] digest
+# @!attribute [r] digest
 #   stores the digest. sha1 = 1, sha256 = 2
-# @!attribute [r] [String] key
+# @!attribute [r]  key
 #   stores the ssh-host-key
 	attr_reader :cipher, :digest, :key
-# @!attribute [String] host
+# @!attribute host
 #   stores the fqdn-host
-# @!attribute [String] hostkeyfile
+# @!attribute hostkeyfile
 #   stores the path to the hostkeyfile
 	attr_accessor :host, :hostkeyfile
 	
