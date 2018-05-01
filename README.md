@@ -72,6 +72,47 @@ Usage: ./tlsarecord [ options ]
     -t, --mtype MTYPE                The Matching Type of the association. 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
 ```
 
+### TLSA Example
+
+```
+#!/usr/bin/env ruby
+
+require 'cryptorecord'
+
+selector = 0
+mtype = 0
+usage = 3
+port = 443
+proto = "tcp"
+host = "www.example.com"
+tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )
+tlsa.read_certfile("/etc/ssl/certs/ssl-cert-snakeoil.pem")
+puts tlsa
+```
+
+### SSHFP Example 
+
+```
+#!/usr/bin/env ruby
+
+require 'cryptorecord'
+
+sshfp = Cryptorecord::Sshfp.new(:digest => 1, :keyfile => '/etc/ssh/ssh_host_rsa_key.pub', :host => 'www.example.com')
+puts sshfp
+```
+
+### OPENPGPKEYS Example
+
+```
+#!/usr/bin/env ruby
+
+require 'cryptorecord'
+
+sshfp = Cryptorecord::Openpgpkeys.new(:uid => "hacky@hacktheplanet.com")
+sshfp.read_gpgkeyfile("resources/hacky.asc")
+puts sshfp
+
+```
 
 ## Development
 
