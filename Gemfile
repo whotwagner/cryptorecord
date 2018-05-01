@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'mail'
+gem 'simplecov', require: false, group: :test
