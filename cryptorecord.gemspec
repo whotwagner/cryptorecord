@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Wolfgang Hotwagner"]
   spec.email         = ["code@feedyourhead.at"]
 
-  spec.summary       = "cryptorecord creates crypto-related dns-records like tlsa/sshfp/openpgpkey"
+  spec.summary       = "cryptorecord is a ruby-gem that helps creating crypto-related dns-records like tlsa/sshfp/openpgpkey"
   spec.description   = <<-DESCRIPTION
 This gem provides an API and scripts for creating crypto-related dns-records(e.g. DANE).   
 At the moment the following records are supported:
