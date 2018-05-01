@@ -42,6 +42,12 @@ class Sshfp
 #   stores the path to the hostkeyfile
 	attr_accessor :host, :hostkeyfile
 	
+# This constructor initializes cipher, key, digest, host and keyfile
+# If keyfile was provided, the key will automatically read from file
+#
+# @param [Integer] digest sha1 = 1, sha256 = 2
+# @param [String] host fqdn of the host
+# @param [String] keyfile path to the keyfile
 	def initialize(args={})
 		@cipher = nil
 		@key = nil
@@ -52,6 +58,9 @@ class Sshfp
 		self.read_sshkeyfile unless @keyfile.nil?
 	end
 
+# This setter initializes cipher
+#
+# @param [Integer] val the key-cipher. ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
 	def cipher=(val)
 		if val.to_i < 1 or val.to_i > 4
 				raise "Invalid cipher. Has to be 0,1,2,3 or 4"
@@ -60,6 +69,9 @@ class Sshfp
 		@cipher = val
 	end
 
+# This setter initializes the hash-algo
+#
+# @param [Integer] val digest. sha1 = 1, sha256 = 2
 	def digest=(val)
 		if val.to_i < 1 or val.to_i > 2
 				raise "Invalid digest. Has to be 1 or 2"
@@ -67,10 +79,16 @@ class Sshfp
 		@digest = val
 	end
 
+# This helper-function converts binary data into hex
+#
+# @param [String] s Binary-string
+# @returns hex-string
 	def bin_to_hex(s)
 	    s.each_byte.map { |b| b.to_s(16).rjust(2,'0') }.join
 	end
 
+# This function reads in the key from file and
+# initializes the cipher- and key-variable
 	def read_sshkeyfile
 		if(@keyfile == nil)
 			raise "No hostkey-file defined"
@@ -93,6 +111,9 @@ class Sshfp
 
 	end
 
+# this function creates a Hash-String
+#
+# @returns [String] Hash-string of the key
 	def fingerprint
 
 		self.read_sshkeyfile if @key.nil?
@@ -107,10 +128,14 @@ class Sshfp
 		end
 	end
 
+# This method prints the sshfp-record to stdout
 	def print
 		puts self
 	end
 
+# This method concats the sshfp-record
+#
+# @returns [String] sshfp dns-record as defined in rfc4255
 	def to_s
 		 self.read_sshkeyfile if @cipher.nil?
 		"#{@host}. IN SSHFP #{@cipher} #{@digest} #{self.fingerprint}"

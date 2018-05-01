@@ -39,7 +39,8 @@ class Openpgpkeys
 	
 # This constructor initializes domain, uid and key
 #
-# @param [String] domain Domain-Part of the email-address
+# @param [String|Mail::Address] uid email-address associated with the pgp-key
+# @param [String] key pgp-key
 	def initialize(args={})
 		self.uid = args.fetch(:uid,nil)
 		self.key = args.fetch(:key,nil)
