@@ -41,7 +41,7 @@ This gem comes with some example scripts like:
   * sshfprecord
   * tlsarecord
 
-```
+```bash
 Usage: ./openpgpkeysrecord -u <email> -f <gpgkeyfile>
     -h, --help                       This help screen
     -f PGP-PUBLICKEY-FILE,           PGP-Publickey-File
@@ -50,7 +50,7 @@ Usage: ./openpgpkeysrecord -u <email> -f <gpgkeyfile>
 
 ```
 
-```
+```bash
 Usage: ./sshfprecord [ options ]
     -h, --help                       This help screen
     -f SSH-HOST-KEY-FILE,            SSH-Hostkey-File
@@ -60,7 +60,7 @@ Usage: ./sshfprecord [ options ]
     -r, --read-local-hostkeys        Read all local Hostkeys.(like ssh-keygen -r)
 ```
 
-```
+```bash
 Usage: ./tlsarecord [ options ]
     -h, --help                       This help screen
     -f, --certfile CERTIFICATE-FILE  Certificatefile
@@ -74,7 +74,7 @@ Usage: ./tlsarecord [ options ]
 
 ### TLSA Example
 
-```
+```ruby
 #!/usr/bin/env ruby
 
 require 'cryptorecord'
@@ -92,7 +92,7 @@ puts tlsa
 
 ### SSHFP Example 
 
-```
+```ruby
 #!/usr/bin/env ruby
 
 require 'cryptorecord'
@@ -103,7 +103,7 @@ puts sshfp
 
 ### OPENPGPKEYS Example
 
-```
+```ruby
 #!/usr/bin/env ruby
 
 require 'cryptorecord'
