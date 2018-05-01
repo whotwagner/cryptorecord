@@ -96,8 +96,7 @@ class Openpgpkeys
 		return if val.nil?
 
 		@key = String.new
-		arr = val.split(/\n/)
-		arr.each do |x|
+		val.split(/\n/).each do |x|
 			next if x == "-----BEGIN PGP PUBLIC KEY BLOCK-----"
 			next if x == "-----END PGP PUBLIC KEY BLOCK-----"
 			next if x == "\s*\n"
