@@ -13,6 +13,13 @@ describe Cryptorecord::Openpgpkeys do
     expect(sshfp.domain).to eq("hacktheplanet.com")
   end
 
+  it "uid can be Mail::Address-type" do
+    sshfp = Cryptorecord::Openpgpkeys.new
+    u = Mail::Address.new("hacky@hacktheplanet.com")
+    sshfp.uid = u
+    expect(sshfp.domain).to eq("hacktheplanet.com")
+  end
+
   it "creates a valid local-part from uid" do
     sshfp = Cryptorecord::Openpgpkeys.new(:uid => "hacky@hacktheplanet.com")
     expect(sshfp.localpart).to eq("f075fb8ed9e2525ad1a24086f6f77ca7dc095da9109202f835e16832")
