@@ -24,8 +24,24 @@ module Cryptorecord
 
 require 'openssl'
 
+# Cryptorecord::Tlsa-class generates
+# tlsa-dns-records.
 class Tlsa
+# @!attribute [r] selector
+#   stores the selector
+# @!attribute [r] mtype
+#   stores the match-type
+# @!attribute [r] usage
+#   stores the usage
 	attr_reader :selector, :mtype, :usage
+# @!attribute host
+#   stores the fqdn for the record
+# @!attribute proto
+#   stores the network protocol
+# @!attribute port
+#   stores the network port
+# @!attribute cert
+#   stores the x509 certificate
 	attr_accessor :host, :proto, :port, :cert
 	
 	def initialize(args={})
@@ -38,6 +54,9 @@ class Tlsa
 		self.cert = args.fetch(:cert,nil)
 	end
 
+# This setter initializes the selector
+#
+# @param [Integer] val Selector for the association. 0 = Full Cert, 1 = SubjectPublicKeyInfo
 	def selector=(val)
 		if val.to_i < 0 or val.to_i > 1
 				raise "Invalid selector. Has to be 0 or 1"
@@ -46,6 +65,9 @@ class Tlsa
 		@selector = val
 	end
 
+# This setter initializes the mtype
+#
+# @param [Integer] val The Matching Type of the association. 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
 	def mtype=(val)
 		if val.to_i < 0 or val.to_i > 2
 				raise "Invalid match type. Has to be 0,1 or 2"
@@ -53,6 +75,9 @@ class Tlsa
 		@mtype = val
 	end
 
+# This setter initializes the usage
+#
+# @param [Integer] val Usage for the association. 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
 	def usage=(val)
 		if val.to_i < 0 or val.to_i > 3
 			raise "Invalid usage. Has to be 0,1,2 or 3"
@@ -60,10 +85,17 @@ class Tlsa
 		@usage = val
 	end
 
+# This helper-function converts binary data into hex
+#
+# @param [String] s Binary-string
+# @returns hex-string
 	def bin_to_hex(s)
 	    s.each_byte.map { |b| b.to_s(16).rjust(2,'0') }.join
 	end
 
+# this setter initializes the certificate
+#
+# @param [OpenSSL::X509::Certificate] val the x509 certificate
 	def cert=(val)
 		unless val.is_a? OpenSSL::X509::Certificate or val.nil?
 			raise "cert has to be a OpenSSL::X509::Certificate"
@@ -72,11 +104,14 @@ class Tlsa
 		@cert=val
 	end
 
+# This function reads in the certificate from file
 	def read_certfile(file)
 		data = File.read(file)
 		self.cert = OpenSSL::X509::Certificate.new(data)
 	end
 
+# this function creates a hash-string defined by mtype and selector
+# @returns depending on mtype and selector a proper hash will be returned
 	def fingerprint
 		if(@cert == nil)
 			raise "No certificate defined"
@@ -106,10 +141,14 @@ class Tlsa
 		end
 	end
 
+# This method prints the tlsa-record to stdout
 	def print
 		puts self
 	end
 
+# This method concats the tlsa-record
+#
+# @returns [String] tlsa dns-record as defined in rfc6698
 	def to_s
 		"_#{@port}._#{@proto}.#{@host}. IN TLSA #{@usage} #{@selector} #{@mtype} #{self.fingerprint}"
 	end
