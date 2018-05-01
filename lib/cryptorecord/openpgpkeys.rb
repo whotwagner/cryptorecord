@@ -49,7 +49,7 @@ class Openpgpkeys
 # This setter initializes the uid with an Mail::Address-object. Make
 # sure this is the proper uid for the pgp-key!
 #
-# @param [String|Mail::Address] The email-address without brackets 
+# @param [String|Mail::Address] val The email-address without brackets 
 	def uid=(val)
 		if val.nil?
 			@uid = nil
@@ -80,7 +80,7 @@ class Openpgpkeys
 
 # This getter returns the domain-part of the uid(email-address) or nil
 #
-# @returns [String] the domain-part of the keys uid(email-address)
+# @returns [String] domain the domain-part of the keys uid(email-address)
 	def domain
 		if @uid.nil?
 			return nil
