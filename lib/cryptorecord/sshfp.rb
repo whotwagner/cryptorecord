@@ -1,10 +1,45 @@
+#--
+# Copyright (C) 2018 Wolfgang Hotwagner <code@feedyourhead.at>       
+#                                                                
+# This file is part of the cryptorecord gem                                            
+# 
+# This mindwave gem is free software; you can redistribute it and/or 
+# modify it under the terms of the GNU General Public License 
+# as published by the Free Software Foundation; either version 2 
+# of the License, or (at your option) any later version.
+# 
+# This mindwave gem is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License          
+# along with this mindwave gem; if not, write to the 
+# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Boston, MA  02110-1301  USA 
+#++
+
+# This module provides the api for cryptorecords
 module Cryptorecord
 
 require 'openssl'
 require 'base64'
 
+# Cryptorecord::Sshfp-class generates
+# sshfp-dns-records. The ssh-host-keys are
+# read from files
 class Sshfp
+# @!attribute [r] [Integer] cipher
+#   stores the cipher. ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
+# @!attribute [r] [Integer] digest
+#   stores the digest. sha1 = 1, sha256 = 2
+# @!attribute [r] [String] key
+#   stores the ssh-host-key
 	attr_reader :cipher, :digest, :key
+# @!attribute [String] host
+#   stores the fqdn-host
+# @!attribute [String] hostkeyfile
+#   stores the path to the hostkeyfile
 	attr_accessor :host, :hostkeyfile
 	
 	def initialize(args={})
