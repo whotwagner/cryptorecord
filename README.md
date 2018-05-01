@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/whotwagner/cryptorecord.svg?branch=master)](https://travis-ci.org/whotwagner/cryptorecord)
 [![Inline docs](http://inch-ci.org/github/whotwagner/cryptorecord.svg?branch=master)](http://inch-ci.org/github/whotwagner/cryptorecord)
 [![Code Climate](https://codeclimate.com/github/whotwagner/cryptorecord/badges/gpa.svg)](https://codeclimate.com/github/whotwagner/cryptorecord)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dfc3da29d8f7e18f2b0c/test_coverage)](https://codeclimate.com/github/whotwagner/cryptorecord/test_coverage)
 [![Gem Version](https://badge.fury.io/rb/cryptorecord.svg)](https://badge.fury.io/rb/cryptorecord)
 
 This gem provides an API and scripts for creating crypto-related dns-records(e.g. DANE).   
