@@ -90,7 +90,7 @@ class Openpgpkeys
 
 # This method sets the pgp-key
 #
-# @param [String] PGP-Public-Key-Block
+# @param [String] val PGP-Public-Key-Block
 	def key=(val)
 		return if val.nil?
 
@@ -107,7 +107,7 @@ class Openpgpkeys
 
 # This method reads the pgp-key from a given file
 #
-# @param [String] Path to the keyfile
+# @param [String] keyfile Path to the keyfile
 	def read_gpgkeyfile(keyfile)
 		if(keyfile == nil)
 			raise "No keyfile defined"
