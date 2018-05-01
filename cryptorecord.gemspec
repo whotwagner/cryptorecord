@@ -21,6 +21,7 @@ This API does not create nor provide any public keys or certificates. It uses ex
 to create the dns-records.
 DESCRIPTION
   spec.homepage      = "https://github.com/whotwagner/cryptorecord"
+  spec.licenses      = ["GPL"]
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
