@@ -94,13 +94,16 @@ class Openpgpkeys
 #
 # @param [String] val pgpkey 
 	def trimpgpkey(val)
-		val.split(/\n/).each do |x|
-			next if x == "-----BEGIN PGP PUBLIC KEY BLOCK-----"
-			next if x == "-----END PGP PUBLIC KEY BLOCK-----"
-			next if x == "^\s*\n$"
-			@key += "#{x}"
+		case val
+		 	when "-----BEGIN PGP PUBLIC KEY BLOCK-----"
+				return ""
+			when  "-----END PGP PUBLIC KEY BLOCK-----"
+				return ""
+			when  "^\s*\n$"
+				return ""
 		end
-		@key = @key.gsub(/=.{4}$/,"")
+
+		return val
 	end
 
 # This method sets the pgp-key
@@ -110,7 +113,10 @@ class Openpgpkeys
 		return if val.nil?
 
 		@key = String.new
-		self.trimpgpkey(val)
+		val.split(/\n/).each do |x|
+			@key += "#{self.trimpgpkey(x)}"
+		end
+		@key = @key.gsub(/=.{4}$/,"")
 	end
 
 # This method reads the pgp-key from a given file
