@@ -26,23 +26,23 @@ module Cryptorecord
 # tlsa-dns-records.
 class Tlsa
 # @!attribute [r] selector
-# stores the selector
+#  stores the selector
 # @!attribute [r] mtype
-# stores the match-type
+#  stores the match-type
 # @!attribute [r] usage
-# stores the usage
-attr_reader :selector, :mtype, :usage
-# @!attribute host
-# stores the fqdn for the record
-# @!attribute proto
-# stores the network protocol
-# @!attribute port
-# stores the network port
+#  stores the usage
 # @!attribute cert
-# stores the x509 certificate
-attr_accessor :host, :proto, :port, :cert
+#  stores the x509 certificate
+attr_reader :selector, :mtype, :usage, :cert
+# @!attribute host
+#  stores the fqdn for the record
+# @!attribute proto
+#  stores the network protocol
+# @!attribute port
+#  stores the network port
+attr_accessor :host, :proto, :port
 
-def initialize(args={})
+def initialize(args = {})
   self.mtype = args.fetch(:mtype, 1)
   self.selector = args.fetch(:selector, 0)
   @host = args.fetch(:host, 'localhost')
@@ -54,32 +54,28 @@ end
 
 # This setter initializes the selector
 #
-# @param [Integer] val Selector for the association. 0 = Full Cert, 1 = SubjectPublicKeyInfo
+# @param [Integer] val Selector for the association. 
+#  0 = Full Cert, 1 = SubjectPublicKeyInfo
 def selector=(val)
-  if val.to_i < 0 || val.to_i > 1
-    raise 'Invalid selector. Has to be 0 or 1'
-  end
+  raise 'Invalid selector. Has to be 0 or 1' if val.to_i < 0 || val.to_i > 1
   @selector = val
 end
 
 # This setter initializes the mtype
 #
-# @param [Integer] val The Matching Type of the association. 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
+# @param [Integer] val The Matching Type of the association. 
+# 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
 def mtype=(val)
-  if val.to_i < 0 || val.to_i > 2
-    raise 'Invalid match type. Has to be 0,1 or 2'
-  end
-
+  raise 'Invalid match type. Has to be 0,1 or 2' if val.to_i < 0 || val.to_i > 2
   @mtype = val
 end
 
 # This setter initializes the usage
 #
-# @param [Integer] val Usage for the association. 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
+# @param [Integer] val Usage for the association. 
+# 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
 def usage=(val)
-  if val.to_i < 0 || val.to_i > 3
-    raise 'Invalid usage. Has to be 0,1,2 or 3'
-  end
+  raise 'Invalid usage. Has to be 0,1,2 or 3' if val.to_i < 0 || val.to_i > 3
   @usage = val
 end
 
@@ -88,18 +84,18 @@ end
 # @param [String] s Binary-string
 # @returns hex-string
 def bin_to_hex(s)
-  s.each_byte.map { |b| b.to_s(16).rjust(2,'0') }.join
+  s.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
 end
 
 # this setter initializes the certificate
 #
 # @param [OpenSSL::X509::Certificate] val the x509 certificate
 def cert=(val)
-  unless val.is_a? OpenSSL::X509::Certificate || val.nil?
+  unless val.is_a?(OpenSSL::X509::Certificate) || val.nil?
     raise 'cert has to be a OpenSSL::X509::Certificate'
   end
 
-  @cert=val
+  @cert = val
 end
 
 # This function reads in the certificate from file
@@ -112,8 +108,8 @@ end
 
 # This function selects the msg to hash using the selector
 #
-# @returns if selector = 0 it returns cert.to_der, 
-# if selector = 1 it returns cert.public_key.to_der 
+# @returns if selector = 0 it returns cert.to_der,
+# if selector = 1 it returns cert.public_key.to_der
 def msg
   case @selector.to_i
   when 0
@@ -134,9 +130,9 @@ def fingerprint
   when 0
     return bin_to_hex(msg)
   when 1
-    return OpenSSL::Digest::SHA256.new(self.msg).to_s
-  when 2 
-    return OpenSSL::Digest::SHA512.new(self.msg).to_s
+    return OpenSSL::Digest::SHA256.new(msg).to_s
+  when 2
+    return OpenSSL::Digest::SHA512.new(msg).to_s
   else
     raise 'Invalid match type. Has to be 0, 1 or 2'
   end
@@ -151,7 +147,8 @@ end
 #
 # @returns [String] tlsa dns-record as defined in rfc6698
 def to_s
-  "_#{@port}._#{@proto}.#{@host}. IN TLSA #{@usage} #{@selector} #{@mtype} #{fingerprint}"
+  "_#{@port}._#{@proto}.#{@host}. IN TLSA"\
+  " #{@usage} #{@selector} #{@mtype} #{fingerprint}"
 end
 end
 end
