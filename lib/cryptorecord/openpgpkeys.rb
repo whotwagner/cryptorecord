@@ -92,7 +92,9 @@ class Openpgpkeys
 # This function trims the pgpkey so that all headers, footers, blanklines, and stuff
 # are gone
 #
-# @param [String] val pgpkey 
+# @param [String] val onne line of the pgpkey-block
+#
+# @returns An empty string if something has to be trimmed, otherwise the line itself
 	def trimpgpkey(val)
 		case val
 		 	when "-----BEGIN PGP PUBLIC KEY BLOCK-----"
