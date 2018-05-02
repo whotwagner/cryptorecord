@@ -25,20 +25,20 @@ module Cryptorecord
 # Cryptorecord::Tlsa-class generates
 # tlsa-dns-records.
 class Tlsa
-  #@!attribute [r] selector
+  # @!attribute [r] selector
   # stores the selector
-  #@!attribute [r] mtype
+  # @!attribute [r] mtype
   # stores the match-type
-  #@!attribute [r] usage
+  # @!attribute [r] usage
   # stores the usage
   attr_reader :selector, :mtype, :usage
-  #@!attribute host
+  # @!attribute host
   # stores the fqdn for the record
-  #@!attribute proto
+  # @!attribute proto
   # stores the network protocol
-  #@!attribute port
+  # @!attribute port
   # stores the network port
-  #@!attribute cert
+  # @!attribute cert
   # stores the x509 certificate
   attr_accessor :host, :proto, :port, :cert
 
