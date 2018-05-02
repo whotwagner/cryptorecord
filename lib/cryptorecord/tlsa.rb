@@ -7,7 +7,7 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This cryptorecord gem is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -25,23 +25,23 @@ module Cryptorecord
 # Cryptorecord::Tlsa-class generates
 # tlsa-dns-records.
 class Tlsa
-  # @!attribute [r] selector
-  #  stores the selector
-  # @!attribute [r] mtype
-  #  stores the match-type
-  # @!attribute [r] usage
-  #  stores the usage
+  #@!attribute [r] selector
+  # stores the selector
+  #@!attribute [r] mtype
+  # stores the match-type
+  #@!attribute [r] usage
+  # stores the usage
   attr_reader :selector, :mtype, :usage
-  # @!attribute host
-  #  stores the fqdn for the record
-  # @!attribute proto
-  #  stores the network protocol
-  # @!attribute port
-  #  stores the network port
-  # @!attribute cert
-  #  stores the x509 certificate
+  #@!attribute host
+  # stores the fqdn for the record
+  #@!attribute proto
+  # stores the network protocol
+  #@!attribute port
+  # stores the network port
+  #@!attribute cert
+  # stores the x509 certificate
   attr_accessor :host, :proto, :port, :cert
-	
+
   def initialize(args={})
     self.mtype = args.fetch(:mtype, 1)
     self.selector = args.fetch(:selector, 0)
