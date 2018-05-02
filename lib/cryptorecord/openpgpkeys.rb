@@ -99,7 +99,7 @@ class Openpgpkeys
 		val.split(/\n/).each do |x|
 			next if x == "-----BEGIN PGP PUBLIC KEY BLOCK-----"
 			next if x == "-----END PGP PUBLIC KEY BLOCK-----"
-			next if x == "\s*\n"
+			next if x == "^\s*\n$"
 			@key += "#{x}"
 		end
 		@key = @key.gsub(/=.{4}$/,"")
