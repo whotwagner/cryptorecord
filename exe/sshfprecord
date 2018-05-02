@@ -1,24 +1,21 @@
 #!/usr/bin/env ruby
 
-#require 'bundler/setup'
 require 'optparse'
 require 'ostruct'
 
 require 'cryptorecord/sshfp'
 
 def read_local_hostkeys(options)
-	Dir['/etc/ssh/ssh_host_*_key.pub'].each do |file_name|
-			  next if File.directory? file_name 
-			  options.keyfile = file_name
-			  options.digest = 1
-			  sshfp = Cryptorecord::Sshfp.new(options.to_h)
-			  sshfp.print
-
-
-			  options.digest = 2
-			  sshfp = Cryptorecord::Sshfp.new(options.to_h)
-			  sshfp.print
-	end
+  Dir['/etc/ssh/ssh_host_*_key.pub'].each do |file_name|
+    next if File.directory? file_name
+    options.keyfile = file_name
+    options.digest = 1
+    sshfp = Cryptorecord::Sshfp.new(options.to_h)
+    sshfp.print
+    options.digest = 2
+    sshfp = Cryptorecord::Sshfp.new(options.to_h)
+    sshfp.print
+  end
 end
 
 options = OpenStruct.new
@@ -29,27 +26,29 @@ options.read = 0
 ###################
 
 OptionParser.new do |opt|
-        opt.banner = "Usage: #{$PROGRAM_NAME} [ options ]"
-        opt.on('-h', '--help', 'This help screen') do
-                $stderr.puts opt
-                exit
-        end
-        opt.on('-f', '--hostkeyfile SSH-HOST-KEY-FILE', 'SSH-Hostkey-File') { |o| options.keyfile = o }
-        opt.on('-H', '--host HOST', 'host') { |o| options.host = o }
-        opt.on('-d', '--digest DIGEST','HASH-Algorithm') { |o| options.digest = o }
-	opt.on('-r', "--read-local-hostkeys","Read all local Hostkeys.(like ssh-keygen -r)") { |o| options.read = 1 }
-        # this won't work with older ruby-versions
-        options[:help] = opt.help
+  opt.banner = "Usage: #{$PROGRAM_NAME} [ options ]"
+  opt.on('-h', '--help', 'This help screen') do
+    warn opt
+    exit
+  end
+  opt.on('-f', '--hostkeyfile SSH-HOST-KEY-FILE',
+         'SSH-Hostkey-File') { |o| options.keyfile = o }
+  opt.on('-H', '--host HOST', 'host') { |o| options.host = o }
+  opt.on('-d', '--digest DIGEST', 'HASH-Algorithm') { |o| options.digest = o }
+  opt.on('-r', '--read-local-hostkeys',
+         'Read all local Hostkeys.(like ssh-keygen -r)') { options.read = 1 }
+  # this won't work with older ruby-versions
+  options[:help] = opt.help
 end.parse!
 
-if not defined?options.keyfile and options.read == 0
-	puts "Usage-Error: No sshkeyfile was provided"
-	exit 1
+unless defined? options.keyfile && options.read == 1
+  warn 'Usage-Error: No sshkeyfile was provided'
+  exit 1
 end
 
 if options.read == 1
-	read_local_hostkeys(options)
+  read_local_hostkeys(options)
 else
-	sshfp = Cryptorecord::Sshfp.new(options.to_h)
-	sshfp.print
+  sshfp = Cryptorecord::Sshfp.new(options.to_h)
+  sshfp.print
 end

@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-#require 'bundler/setup'
 require 'optparse'
 require 'ostruct'
 
@@ -15,25 +14,33 @@ options.mtype = 0
 ###################
 
 OptionParser.new do |opt|
-        opt.banner = "Usage: #{$PROGRAM_NAME} [ options ]"
-        opt.on('-h', '--help', 'This help screen') do
-                $stderr.puts opt
-                exit
-        end
-        opt.on('-f', '--certfile CERTIFICATE-FILE', 'Certificatefile') { |o| options.certfile = o }
-        opt.on('-H', '--host HOST', 'host') { |o| options.host = o }
-        opt.on('-p', '--port PORTNUMBER','port') { |o| options.port = o }
-        opt.on('-P', '--protocol PROTOCOL','protocol(tcp,udp,sctp..)') { |o| options.proto = o }
-        opt.on('-s', '--selector SELECTOR','Selector for the association. 0 = Full Cert, 1 = SubjectPublicKeyInfo') { |o| options.selector = o }
-        opt.on('-u', '--usage USAGE','Usage for the association. 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE') { |o| options.usage = o }
-        opt.on('-t', '--mtype MTYPE','The Matching Type of the association. 0 = Exact Match, 1 = SHA-256, 2 = SHA-512') { |o| options.mtype = o }
-        # this won't work with older ruby-versions
-        options[:help] = opt.help
+  opt.banner = "Usage: #{$PROGRAM_NAME} [ options ]"
+  opt.on('-h', '--help', 'This help screen') do
+    warn opt
+    exit
+  end
+  opt.on('-f', '--certfile CERTIFICATE-FILE',
+         'Certificatefile') { |o| options.certfile = o }
+  opt.on('-H', '--host HOST', 'host') { |o| options.host = o }
+  opt.on('-p', '--port PORTNUMBER', 'port') { |o| options.port = o }
+  opt.on('-P', '--protocol PROTOCOL',
+         'protocol(tcp,udp,sctp..)') { |o| options.proto = o }
+  opt.on('-s', '--selector SELECTOR',
+         'Selector for the association. 0 = Full Cert,'\
+	 '1 = SubjectPublicKeyInfo') { |o| options.selector = o }
+  opt.on('-u', '--usage USAGE',
+         'Usage for the association.0 = PKIX-CA,'\
+         '1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE') { |o| options.usage = o }
+  opt.on('-t', '--mtype MTYPE',
+         'The Matching Type of the association.'\
+         '0 = Exact Match, 1 = SHA-256, 2 = SHA-512') { |o| options.mtype = o }
+  # this won't work with older ruby-versions
+  options[:help] = opt.help
 end.parse!
 
-if not defined?options.certfile
-	puts "Usage-Error: No certificate was provided"
-	exit 1
+unless defined? options.certfile
+  warn 'Usage-Error: No certificate was provided'
+  exit 1
 end
 
 tlsa = Cryptorecord::Tlsa.new(options.to_h)
