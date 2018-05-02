@@ -110,32 +110,33 @@ class Tlsa
 		self.cert = OpenSSL::X509::Certificate.new(data)
 	end
 
+# This function selects the msg to hash using the selector
+#
+# @returns if selector = 0 it returns cert.to_der, 
+#	   if selector = 1 it returns cert.public_key.to_der 
+	def msg
+		case @selector.to_i
+			when 0
+				return @cert.to_der
+			when 1
+				return @cert.public_key.to_der
+		end
+
+		raise "Invalid selector. Has to be 0 or 1"
+	end
+
 # this function creates a hash-string defined by mtype and selector
 # @returns depending on mtype and selector a proper hash will be returned
 	def fingerprint
-		if(@cert == nil)
-			raise "No certificate defined"
-		end
+		raise "No certificate defined" if @cert.nil?
 		
-		digest = nil
-		msg = nil
-
-		case @selector.to_i
-			when 0
-				msg = @cert.to_der
-			when 1
-				msg = @cert.public_key.to_der
-			else
-				raise "Invalid selector. Has to be 0 or 1"
-		end
-
 		case @mtype.to_i
 		        when 0
 				return bin_to_hex(msg)
 			when 1
-				return OpenSSL::Digest::SHA256.new(msg).to_s
+				return OpenSSL::Digest::SHA256.new(self.msg).to_s
 			when 2 
-			 	return  OpenSSL::Digest::SHA512.new(msg).to_s
+			 	return  OpenSSL::Digest::SHA512.new(self.msg).to_s
 			else
 				raise "Invalid match type. Has to be 0, 1 or 2"
 		end
