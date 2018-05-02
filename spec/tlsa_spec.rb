@@ -127,7 +127,7 @@ describe Cryptorecord::Tlsa do
     port = 443
     proto = "tcp"
     host = "www.example.com"
-    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(RuntimeError)
+    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(Cryptorecord::ArgumentError)
   end
 
  it "selector bigger than 1 must raise exception" do
@@ -137,7 +137,7 @@ describe Cryptorecord::Tlsa do
     port = 443
     proto = "tcp"
     host = "www.example.com"
-    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(RuntimeError)
+    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(Cryptorecord::ArgumentError)
   end
 
  it "usage smaller than 0 must raise exception" do
@@ -147,7 +147,7 @@ describe Cryptorecord::Tlsa do
     port = 443
     proto = "tcp"
     host = "www.example.com"
-    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(RuntimeError)
+    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(Cryptorecord::ArgumentError)
   end
 
 
@@ -158,7 +158,7 @@ describe Cryptorecord::Tlsa do
     port = 443
     proto = "tcp"
     host = "www.example.com"
-    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(RuntimeError)
+    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(Cryptorecord::ArgumentError)
   end
 
  it "mtype smaller than 0 must raise exception" do
@@ -168,7 +168,7 @@ describe Cryptorecord::Tlsa do
     port = 443
     proto = "tcp"
     host = "www.example.com"
-    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(RuntimeError)
+    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(Cryptorecord::ArgumentError)
   end
 
 
@@ -179,7 +179,7 @@ describe Cryptorecord::Tlsa do
     port = 443
     proto = "tcp"
     host = "www.example.com"
-    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(RuntimeError)
+    expect{tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )}.to raise_error(Cryptorecord::ArgumentError)
   end
 
  it "cert other than nil or OpenSSL::X509::Certificate must raise exception" do
@@ -190,7 +190,7 @@ describe Cryptorecord::Tlsa do
     proto = "tcp"
     host = "www.example.com"
     tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )
-    expect{tlsa.cert = Hash.new}.to raise_error(RuntimeError)
+    expect{tlsa.cert = Hash.new}.to raise_error(Cryptorecord::ArgumentError)
   end
 
 

@@ -1,4 +1,4 @@
 module Cryptorecord
   class Error < StandardError; end
-  class InvalidType < Error; end
+  class ArgumentError < Error; end
 end

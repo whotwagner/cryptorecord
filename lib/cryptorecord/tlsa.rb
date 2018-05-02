@@ -57,7 +57,9 @@ module Cryptorecord
     # @param [Integer] val Selector for the association.
     #  0 = Full Cert, 1 = SubjectPublicKeyInfo
     def selector=(val)
-      raise 'Invalid selector. Has to be 0 or 1' if val.to_i < 0 || val.to_i > 1
+      if val.to_i < 0 || val.to_i > 1
+        raise ArgumentError, 'Invalid selector. Has to be 0 or 1'
+      end
       @selector = val
     end
 
@@ -67,7 +69,8 @@ module Cryptorecord
     # 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
     def mtype=(val)
       if val.to_i < 0 || val.to_i > 2
-        raise 'Invalid match type. Has to be 0,1 or 2'
+        raise ArgumentError, 'Invalid match type.'\
+	'Has to be 0,1 or 2'
       end
       @mtype = val
     end
@@ -78,7 +81,7 @@ module Cryptorecord
     #   0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
     def usage=(val)
       if val.to_i < 0 || val.to_i > 3
-        raise 'Invalid usage. Has to be 0,1,2 or 3'
+        raise ArgumentError, 'Invalid usage. Has to be 0,1,2 or 3'
       end
       @usage = val
     end
@@ -96,7 +99,7 @@ module Cryptorecord
     # @param [OpenSSL::X509::Certificate] val the x509 certificate
     def cert=(val)
       unless val.is_a?(OpenSSL::X509::Certificate) || val.nil?
-        raise 'cert has to be a OpenSSL::X509::Certificate'
+        raise ArgumentError, 'cert has to be a OpenSSL::X509::Certificate'
       end
 
       @cert = val

@@ -47,7 +47,7 @@ module Cryptorecord
     # sure this is the proper uid for the pgp-key!
     #
     # @param [String|Mail::Address] val The email-address without brackets
-    # @raises Cryptorecord::InvalidType
+    # @raises Cryptorecord::ArgumentError
     def uid=(val)
       if val.nil?
         @uid = nil
@@ -60,7 +60,7 @@ module Cryptorecord
       when Mail::Address
         @uid = Mail::Address.new("<#{val.address}>")
       else
-        raise Cryptorecord::InvalidType,
+        raise Cryptorecord::ArgumentError,
               "Unsupported datatype #{val.class} for val"
       end
     end
@@ -120,7 +120,7 @@ module Cryptorecord
     #
     # @param [String] keyfile Path to the keyfile
     def read_gpgkeyfile(keyfile)
-      raise 'No keyfile defined' if keyfile.nil?
+      raise Cryptorecord::ArgumentError, 'No keyfile defined' if keyfile.nil?
       data = File.read(keyfile)
       self.key = data
     end
