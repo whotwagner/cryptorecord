@@ -89,17 +89,16 @@ module Cryptorecord
     # @returns An empty string if something has to be trimmed,
     # otherwise the line itself
     def trimpgpkey(val)
-      ret = val
       case val
       when '-----BEGIN PGP PUBLIC KEY BLOCK-----'
-        ret ''
+        ''
       when  '-----END PGP PUBLIC KEY BLOCK-----'
-        ret ''
+        ''
       when  "^\s*\n$"
-        ret ''
+        ''
+      else
+        val.to_s
       end
-
-      ret
     end
 
     # This method sets the pgp-key
