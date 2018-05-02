@@ -73,7 +73,7 @@ class Tlsa
 # This setter initializes the usage
 #
 # @param [Integer] val Usage for the association.
-# 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
+#   0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
   def usage=(val)
     raise 'Invalid usage. Has to be 0,1,2 or 3' if val.to_i < 0 || val.to_i > 3
     @usage = val
