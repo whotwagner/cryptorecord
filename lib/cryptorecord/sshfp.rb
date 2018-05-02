@@ -61,7 +61,7 @@ class Sshfp
 # @param [Integer] val the key-cipher. ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
     def cipher=(val)
         if val.to_i < 1 or val.to_i > 4
-            raise "Invalid cipher. Has to be 0,1,2,3 or 4"
+            raise 'Invalid cipher. Has to be 0,1,2,3 or 4'
         end
         
         @cipher = val
@@ -72,7 +72,7 @@ class Sshfp
 # @param [Integer] val digest. sha1 = 1, sha256 = 2
     def digest=(val)
         if val.to_i < 1 or val.to_i > 2
-            raise "Invalid digest. Has to be 1 or 2"
+            raise 'Invalid digest. Has to be 1 or 2'
         end
         @digest = val
     end
@@ -91,23 +91,23 @@ class Sshfp
 # @params String type ssh-rsa = 1, ssh-dss = 2, ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
     def cipher_by_type(type)
         case type
-            when "ssh-rsa"
+            when 'ssh-rsa'
                 self.cipher=1
-            when "ssh-dss"
+            when 'ssh-dss'
                 self.cipher=2
-            when "ecdsa-sha2-nistp256"
+            when 'ecdsa-sha2-nistp256'
                  self.cipher=3
-            when "ssh-ed25519"
+            when 'ssh-ed25519'
                  self.cipher=4
             else
-                 raise "Unsupported cipher"
+                 raise 'Unsupported cipher'
         end
     end
 
 # This function reads in the key from file and
 # initializes the cipher- and key-variable
     def read_sshkeyfile
-        raise "No hostkey-file defined" if @keyfile.nil?
+        raise 'No hostkey-file defined' if @keyfile.nil?
         
         data = File.read(@keyfile)
         (type,@key) = data.split(" ")
@@ -127,7 +127,7 @@ class Sshfp
             when 2
                 return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
             else
-                raise "Invalid digest. Has to be 1 or 2"
+                raise 'Invalid digest. Has to be 1 or 2'
         end
     end
 

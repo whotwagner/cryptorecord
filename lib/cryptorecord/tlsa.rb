@@ -57,7 +57,7 @@ class Tlsa
 # @param [Integer] val Selector for the association. 0 = Full Cert, 1 = SubjectPublicKeyInfo
     def selector=(val)
         if val.to_i < 0 or val.to_i > 1
-            raise "Invalid selector. Has to be 0 or 1"
+            raise 'Invalid selector. Has to be 0 or 1'
         end
         @selector = val
     end
@@ -67,7 +67,7 @@ class Tlsa
 # @param [Integer] val The Matching Type of the association. 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
     def mtype=(val)
         if val.to_i < 0 or val.to_i > 2
-            raise "Invalid match type. Has to be 0,1 or 2"
+            raise 'Invalid match type. Has to be 0,1 or 2'
         end
     
         @mtype = val
@@ -78,7 +78,7 @@ class Tlsa
 # @param [Integer] val Usage for the association. 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
     def usage=(val)
         if val.to_i < 0 or val.to_i > 3
-            raise "Invalid usage. Has to be 0,1,2 or 3"
+            raise 'Invalid usage. Has to be 0,1,2 or 3'
         end
         @usage = val
     end
@@ -96,7 +96,7 @@ class Tlsa
 # @param [OpenSSL::X509::Certificate] val the x509 certificate
     def cert=(val)
         unless val.is_a? OpenSSL::X509::Certificate or val.nil?
-            raise "cert has to be a OpenSSL::X509::Certificate"
+            raise 'cert has to be a OpenSSL::X509::Certificate'
         end
     
         @cert=val
@@ -120,7 +120,7 @@ class Tlsa
             return @cert.public_key.to_der
         end
     
-        raise "Invalid selector. Has to be 0 or 1"
+        raise 'Invalid selector. Has to be 0 or 1'
     end
 
 # this function creates a hash-string defined by mtype and selector
@@ -136,7 +136,7 @@ class Tlsa
             when 2 
                 return  OpenSSL::Digest::SHA512.new(self.msg).to_s
             else
-                raise "Invalid match type. Has to be 0, 1 or 2"
+                raise 'Invalid match type. Has to be 0, 1 or 2'
         end
     end
 
