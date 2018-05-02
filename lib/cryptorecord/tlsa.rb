@@ -22,7 +22,7 @@
 # This module provides the api for cryptorecords
 module Cryptorecord
 
-require 'openssl'
+  require 'openssl'
 
 # Cryptorecord::Tlsa-class generates
 # tlsa-dns-records.
@@ -45,13 +45,13 @@ class Tlsa
 	attr_accessor :host, :proto, :port, :cert
 	
 	def initialize(args={})
-		self.mtype = args.fetch(:mtype,1)
-		self.selector = args.fetch(:selector,0)
-		@host = args.fetch(:host,"localhost")
-		@proto = args.fetch(:proto,"tcp")
-		@port = args.fetch(:port,443)
-		self.usage = args.fetch(:usage,3)
-		self.cert = args.fetch(:cert,nil)
+	    self.mtype = args.fetch(:mtype,1)
+	    self.selector = args.fetch(:selector,0)
+	    @host = args.fetch(:host,"localhost")
+	    @proto = args.fetch(:proto,"tcp")
+	    @port = args.fetch(:port,443)
+	    self.usage = args.fetch(:usage,3)
+	    self.cert = args.fetch(:cert,nil)
 	end
 
 # This setter initializes the selector
@@ -69,10 +69,11 @@ class Tlsa
 #
 # @param [Integer] val The Matching Type of the association. 0 = Exact Match, 1 = SHA-256, 2 = SHA-512
 	def mtype=(val)
-		if val.to_i < 0 or val.to_i > 2
-				raise "Invalid match type. Has to be 0,1 or 2"
-		end
-		@mtype = val
+            if val.to_i < 0 or val.to_i > 2
+	        raise "Invalid match type. Has to be 0,1 or 2"
+	     end
+
+	     @mtype = val
 	end
 
 # This setter initializes the usage
@@ -83,7 +84,7 @@ class Tlsa
 			raise "Invalid usage. Has to be 0,1,2 or 3"
 		end
 		@usage = val
-	end
+        end
 
 # This helper-function converts binary data into hex
 #
@@ -97,11 +98,11 @@ class Tlsa
 #
 # @param [OpenSSL::X509::Certificate] val the x509 certificate
 	def cert=(val)
-		unless val.is_a? OpenSSL::X509::Certificate or val.nil?
-			raise "cert has to be a OpenSSL::X509::Certificate"
-		end
+                unless val.is_a? OpenSSL::X509::Certificate or val.nil?
+                    raise "cert has to be a OpenSSL::X509::Certificate"
+                end
 
-		@cert=val
+                @cert=val
 	end
 
 # This function reads in the certificate from file
@@ -133,9 +134,9 @@ class Tlsa
 		case @mtype.to_i
 		        when 0
 				return bin_to_hex(msg)
-			when 1
+                        when 1
 				return OpenSSL::Digest::SHA256.new(self.msg).to_s
-			when 2 
+                        when 2 
 			 	return  OpenSSL::Digest::SHA512.new(self.msg).to_s
 			else
 				raise "Invalid match type. Has to be 0, 1 or 2"
