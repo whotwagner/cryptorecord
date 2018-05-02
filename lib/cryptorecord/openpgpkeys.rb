@@ -47,6 +47,7 @@ module Cryptorecord
     # sure this is the proper uid for the pgp-key!
     #
     # @param [String|Mail::Address] val The email-address without brackets
+    # @raises Cryptorecord::InvalidType
     def uid=(val)
       if val.nil?
         @uid = nil
@@ -59,7 +60,7 @@ module Cryptorecord
       when Mail::Address
         @uid = Mail::Address.new("<#{val.address}>")
       else
-        raise "Unsupported datatype #{val.class} for val"
+        raise Cryptorecord::InvalidType, "Unsupported datatype #{val.class} for val"
       end
     end
 
