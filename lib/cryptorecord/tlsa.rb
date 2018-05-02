@@ -77,7 +77,7 @@ class Tlsa
 #
 # @param [Integer] val Usage for the association. 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
     def usage=(val)
-        if val.to_i < 0 or val.to_i > 3
+        if val.to_i < 0 || val.to_i > 3
             raise 'Invalid usage. Has to be 0,1,2 or 3'
         end
         @usage = val
@@ -129,14 +129,14 @@ class Tlsa
         raise "No certificate defined" if @cert.nil?
     
         case @mtype.to_i
-            when 0
-                return bin_to_hex(msg)
-            when 1
-                return OpenSSL::Digest::SHA256.new(self.msg).to_s
-            when 2 
-                return  OpenSSL::Digest::SHA512.new(self.msg).to_s
-            else
-                raise 'Invalid match type. Has to be 0, 1 or 2'
+        when 0
+            return bin_to_hex(msg)
+        when 1
+            return OpenSSL::Digest::SHA256.new(self.msg).to_s
+        when 2 
+            return  OpenSSL::Digest::SHA512.new(self.msg).to_s
+        else
+            raise 'Invalid match type. Has to be 0, 1 or 2'
         end
     end
 

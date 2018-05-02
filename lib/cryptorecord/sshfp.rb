@@ -91,16 +91,16 @@ class Sshfp
 # @params String type ssh-rsa = 1, ssh-dss = 2, ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
     def cipher_by_type(type)
         case type
-            when 'ssh-rsa'
-                self.cipher=1
-            when 'ssh-dss'
-                self.cipher=2
-            when 'ecdsa-sha2-nistp256'
-                 self.cipher=3
-            when 'ssh-ed25519'
-                 self.cipher=4
-            else
-                 raise 'Unsupported cipher'
+        when 'ssh-rsa'
+            self.cipher=1
+        when 'ssh-dss'
+            self.cipher=2
+        when 'ecdsa-sha2-nistp256'
+             self.cipher=3
+        when 'ssh-ed25519'
+             self.cipher=4
+        else
+             raise 'Unsupported cipher'
         end
     end
 
@@ -122,12 +122,12 @@ class Sshfp
         self.read_sshkeyfile if @key.nil?
 
         case @digest.to_i
-            when 1
-                return OpenSSL::Digest::SHA1.new(Base64.strict_decode64(@key)).to_s
-            when 2
-                return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
-            else
-                raise 'Invalid digest. Has to be 1 or 2'
+        when 1
+            return OpenSSL::Digest::SHA1.new(Base64.strict_decode64(@key)).to_s
+        when 2
+            return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
+        else
+            raise 'Invalid digest. Has to be 1 or 2'
         end
     end
 

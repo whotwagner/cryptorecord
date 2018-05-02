@@ -57,12 +57,12 @@ class Openpgpkeys
         end
         
         case val
-           when String
-               @uid = Mail::Address.new("<#{val}>") if val.is_a?String
-           when Mail::Address
-               @uid = Mail::Address.new("<#{val.address}>")
-           else
-               raise "Unsupported datatype #{val.class.to_s} for val"
+        when String
+            @uid = Mail::Address.new("<#{val}>") if val.is_a?String
+        when Mail::Address
+            @uid = Mail::Address.new("<#{val.address}>")
+        else
+            raise "Unsupported datatype #{val.class.to_s} for val"
         end
     end
 
@@ -97,12 +97,12 @@ class Openpgpkeys
 # @returns An empty string if something has to be trimmed, otherwise the line itself
     def trimpgpkey(val)
         case val
-            when '-----BEGIN PGP PUBLIC KEY BLOCK-----'
-                return ''
-            when  '-----END PGP PUBLIC KEY BLOCK-----'
-                return ''
-            when  "^\s*\n$"
-                return ''
+        when '-----BEGIN PGP PUBLIC KEY BLOCK-----'
+            return ''
+        when  '-----END PGP PUBLIC KEY BLOCK-----'
+            return ''
+        when  "^\s*\n$"
+            return ''
         end
         
         return val
