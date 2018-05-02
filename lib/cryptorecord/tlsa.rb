@@ -33,14 +33,14 @@ class Tlsa
 #  stores the usage
 # @!attribute cert
 #  stores the x509 certificate
-attr_reader :selector, :mtype, :usage, :cert
+  attr_reader :selector, :mtype, :usage, :cert
 # @!attribute host
 #  stores the fqdn for the record
 # @!attribute proto
 #  stores the network protocol
 # @!attribute port
 #  stores the network port
-attr_accessor :host, :proto, :port
+  attr_accessor :host, :proto, :port
 
 def initialize(args = {})
   self.mtype = args.fetch(:mtype, 1)
