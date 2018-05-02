@@ -81,9 +81,9 @@ class Openpgpkeys
 # @returns [String] domain the domain-part of the keys uid(email-address)
   def domain
       if @uid.nil?
-          return nil
+        return nil
       else
-          return @uid.domain
+        return @uid.domain
       end
   end
 
@@ -96,11 +96,11 @@ class Openpgpkeys
   def trimpgpkey(val)
       case val
       when '-----BEGIN PGP PUBLIC KEY BLOCK-----'
-          return ''
+        return ''
       when  '-----END PGP PUBLIC KEY BLOCK-----'
-          return ''
+        return ''
       when  "^\s*\n$"
-          return ''
+        return ''
       end
         
       return val
