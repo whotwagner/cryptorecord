@@ -19,5 +19,5 @@
 # Boston, MA  02110-1301  USA 
 #++
 module Cryptorecord
-  VERSION = "0.1.0"
+  VERSION = '0.1.0'
 end
