@@ -103,7 +103,7 @@ module Cryptorecord
       when 'ssh-ed25519'
         self.cipher = 4
       else
-        raise 'Unsupported cipher'
+        raise Cryptorecord::ArgumentError, 'Unsupported cipher'
       end
     end
 

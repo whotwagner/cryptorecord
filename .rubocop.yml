@@ -1,2 +1,11 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'resources/**/*'
+    - 'spec/**/*'
+    - 'cryptorecord.gemspec'
+    - 'Gemfile'
+    - 'Rakefile'
+  DisplayCopNames: true
 Metrics/MethodLength:
   Max: 15
