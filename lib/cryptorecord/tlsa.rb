@@ -21,9 +21,7 @@
 
 # This module provides the api for cryptorecords
 module Cryptorecord
-
   require 'openssl'
-
 # Cryptorecord::Tlsa-class generates
 # tlsa-dns-records.
 class Tlsa
@@ -58,11 +56,10 @@ class Tlsa
 #
 # @param [Integer] val Selector for the association. 0 = Full Cert, 1 = SubjectPublicKeyInfo
 	def selector=(val)
-		if val.to_i < 0 or val.to_i > 1
-				raise "Invalid selector. Has to be 0 or 1"
-		end
-
-		@selector = val
+            if val.to_i < 0 or val.to_i > 1
+                raise "Invalid selector. Has to be 0 or 1"
+            end
+            @selector = val
 	end
 
 # This setter initializes the mtype
@@ -71,19 +68,19 @@ class Tlsa
 	def mtype=(val)
             if val.to_i < 0 or val.to_i > 2
 	        raise "Invalid match type. Has to be 0,1 or 2"
-	     end
+            end
 
-	     @mtype = val
+	    @mtype = val
 	end
 
 # This setter initializes the usage
 #
 # @param [Integer] val Usage for the association. 0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
 	def usage=(val)
-		if val.to_i < 0 or val.to_i > 3
-			raise "Invalid usage. Has to be 0,1,2 or 3"
-		end
-		@usage = val
+            if val.to_i < 0 or val.to_i > 3
+                raise "Invalid usage. Has to be 0,1,2 or 3"
+            end
+	    @usage = val
         end
 
 # This helper-function converts binary data into hex
@@ -98,17 +95,17 @@ class Tlsa
 #
 # @param [OpenSSL::X509::Certificate] val the x509 certificate
 	def cert=(val)
-                unless val.is_a? OpenSSL::X509::Certificate or val.nil?
-                    raise "cert has to be a OpenSSL::X509::Certificate"
-                end
+            unless val.is_a? OpenSSL::X509::Certificate or val.nil?
+                raise "cert has to be a OpenSSL::X509::Certificate"
+            end
 
-                @cert=val
+            @cert=val
 	end
 
 # This function reads in the certificate from file
 	def read_certfile(file)
-		data = File.read(file)
-		self.cert = OpenSSL::X509::Certificate.new(data)
+	    data = File.read(file)
+	    self.cert = OpenSSL::X509::Certificate.new(data)
 	end
 
 # This function selects the msg to hash using the selector
@@ -116,43 +113,43 @@ class Tlsa
 # @returns if selector = 0 it returns cert.to_der, 
 #	   if selector = 1 it returns cert.public_key.to_der 
 	def msg
-		case @selector.to_i
-			when 0
-				return @cert.to_der
-			when 1
-				return @cert.public_key.to_der
-		end
+            case @selector.to_i
+            when 0
+                return @cert.to_der
+            when 1
+                return @cert.public_key.to_der
+            end
 
-		raise "Invalid selector. Has to be 0 or 1"
+            raise "Invalid selector. Has to be 0 or 1"
 	end
 
 # this function creates a hash-string defined by mtype and selector
 # @returns depending on mtype and selector a proper hash will be returned
 	def fingerprint
-		raise "No certificate defined" if @cert.nil?
-		
-		case @mtype.to_i
-		        when 0
-				return bin_to_hex(msg)
-                        when 1
-				return OpenSSL::Digest::SHA256.new(self.msg).to_s
-                        when 2 
-			 	return  OpenSSL::Digest::SHA512.new(self.msg).to_s
-			else
-				raise "Invalid match type. Has to be 0, 1 or 2"
-		end
+            raise "No certificate defined" if @cert.nil?
+	
+            case @mtype.to_i
+                when 0
+                    return bin_to_hex(msg)
+                when 1
+                    return OpenSSL::Digest::SHA256.new(self.msg).to_s
+                when 2 
+                    return  OpenSSL::Digest::SHA512.new(self.msg).to_s
+                else
+                    raise "Invalid match type. Has to be 0, 1 or 2"
+            end
 	end
 
 # This method prints the tlsa-record to stdout
 	def print
-		puts self
+            puts self
 	end
 
 # This method concats the tlsa-record
 #
 # @returns [String] tlsa dns-record as defined in rfc6698
 	def to_s
-		"_#{@port}._#{@proto}.#{@host}. IN TLSA #{@usage} #{@selector} #{@mtype} #{self.fingerprint}"
+            "_#{@port}._#{@proto}.#{@host}. IN TLSA #{@usage} #{@selector} #{@mtype} #{self.fingerprint}"
 	end
 end
 
