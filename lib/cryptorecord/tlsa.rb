@@ -149,7 +149,7 @@ class Tlsa
 #
 # @returns [String] tlsa dns-record as defined in rfc6698
   def to_s
-      "_#{@port}._#{@proto}.#{@host}. IN TLSA #{@usage} #{@selector} #{@mtype} #{self.fingerprint}"
+    "_#{@port}._#{@proto}.#{@host}. IN TLSA #{@usage} #{@selector} #{@mtype} #{fingerprint}"
   end
 end
 end

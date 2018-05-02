@@ -1,40 +1,40 @@
 #--
-# Copyright (C) 2018 Wolfgang Hotwagner <code@feedyourhead.at>       
-#                                                                
-# This file is part of the cryptorecord gem                                            
+# Copyright (C) 2018 Wolfgang Hotwagner <code@feedyourhead.at>
+#
+# This file is part of the cryptorecord gem
 # 
 # This mindwave gem is free software; you can redistribute it and/or 
 # modify it under the terms of the GNU General Public License 
 # as published by the Free Software Foundation; either version 2 
 # of the License, or (at your option) any later version.
-# 
+#
 # This mindwave gem is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 # 
-# You should have received a copy of the GNU General Public License          
-# along with this mindwave gem; if not, write to the 
-# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, 
-# Boston, MA  02110-1301  USA 
+# You should have received a copy of the GNU General Public License
+# along with this mindwave gem; if not, write to the
+# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+# Boston, MA  02110-1301  USA
 #++
 
 # This module provides the api for cryptorecords
 module Cryptorecord
-require 'openssl'
-require 'mail'
+  require 'openssl'
+  require 'mail'
 # Cryptorecord::Openpgpkeys-class generates
-# openphpkeys-dns-records. Instances must have an 
+# openphpkeys-dns-records. Instances must have an
 # uid. The PGP-Key can be read from file
 class Openpgpkeys
-# @!attribute [r] uid
-#  stores the user-id
-# @!attribute [r] key
-#  stores the pgp-key
-# @!attribute [r] localpart
-#  stores the sha256-hash of the email-localpart
+  # @!attribute [r] uid
+  #  stores the user-id
+  # @!attribute [r] key
+  #  stores the pgp-key
+  # @!attribute [r] localpart
+  #  stores the sha256-hash of the email-localpart
   attr_reader :uid, :domain, :key, :localpart
-	
+
 # This constructor initializes domain, uid and key
 #
 # @param [String|Mail::Address] uid email-address associated with the pgp-key

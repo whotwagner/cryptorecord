@@ -15,7 +15,7 @@
 # 
 # You should have received a copy of the GNU General Public License          
 # along with this mindwave gem; if not, write to the 
-# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA 
 #++
 
@@ -110,7 +110,7 @@ class Sshfp
     raise 'No hostkey-file defined' if @keyfile.nil?
     
     data = File.read(@keyfile)
-    (type,@key) = data.split(" ")
+    (type, @key) = data.split(" ")
     self.cipher_by_type(type)
   end
 
