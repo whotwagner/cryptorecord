@@ -1,147 +1,149 @@
 #--
-# Copyright (C) 2018 Wolfgang Hotwagner <code@feedyourhead.at>       
-#                                                                
-# This file is part of the cryptorecord gem                                            
-# 
-# This cryptorecord gem is free software; you can redistribute it and/or 
-# modify it under the terms of the GNU General Public License 
-# as published by the Free Software Foundation; either version 2 
+# Copyright (C) 2018 Wolfgang Hotwagner <code@feedyourhead.at>
+#
+# This file is part of the cryptorecord gem
+#
+# This cryptorecord gem is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This cryptorecord gem is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License          
-# along with this cryptorecord gem; if not, write to the 
+#
+# You should have received a copy of the GNU General Public License
+# along with this cryptorecord gem; if not, write to the
 # Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
-# Boston, MA  02110-1301  USA 
+# Boston, MA  02110-1301  USA
 #++
 
 # This module provides the api for cryptorecords
 module Cryptorecord
-require 'openssl'
-require 'base64'
-# Cryptorecord::Sshfp-class generates
-# sshfp-dns-records. The ssh-host-keys are
-# read from files
-class Sshfp
-# @!attribute [r] cipher
-#  stores the cipher. ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
-# @!attribute [r] digest
-#  stores the digest. sha1 = 1, sha256 = 2
-# @!attribute [r]  key
-#  stores the ssh-host-key
-  attr_reader :cipher, :digest, :key
-# @!attribute host
-#  stores the fqdn-host
-# @!attribute hostkeyfile
-#  stores the path to the hostkeyfile
-  attr_accessor :host, :hostkeyfile
-	
-# This constructor initializes cipher, key, digest, host and keyfile
-# If keyfile was provided, the key will automatically read from file
-#
-# @param [Integer] digest sha1 = 1, sha256 = 2
-# @param [String] host fqdn of the host
-# @param [String] keyfile path to the keyfile
-  def initialize(args={})
-    @cipher = nil
-    @key = nil
-    self.digest = args.fetch(:digest, 2)
-    @host = args.fetch(:host, "localhost")
-    @keyfile = args.fetch(:keyfile, nil)
-    
-    self.read_sshkeyfile unless @keyfile.nil?
-  end
+  require 'openssl'
+  require 'base64'
+  # Cryptorecord::Sshfp-class generates
+  # sshfp-dns-records. The ssh-host-keys are
+  # read from files
+  class Sshfp
+    # @!attribute [r] cipher
+    #  stores the cipher. ssh-rsa = 1, ssh-dss = 2,
+    #  ecdsa = 3 and ed25519 = 4
+    # @!attribute [r] digest
+    #  stores the digest. sha1 = 1, sha256 = 2
+    # @!attribute [r]  key
+    #  stores the ssh-host-key
+    attr_reader :cipher, :digest, :key
+    # @!attribute host
+    #  stores the fqdn-host
+    # @!attribute hostkeyfile
+    #  stores the path to the hostkeyfile
+    attr_accessor :host, :hostkeyfile
 
-# This setter initializes cipher
-#
-# @param [Integer] val the key-cipher. ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
-  def cipher=(val)
-    if val.to_i < 1 or val.to_i > 4
-      raise 'Invalid cipher. Has to be 0,1,2,3 or 4'
+    # This constructor initializes cipher, key, digest, host and keyfile
+    # If keyfile was provided, the key will automatically read from file
+    #
+    # @param [Integer] digest sha1 = 1, sha256 = 2
+    # @param [String] host fqdn of the host
+    # @param [String] keyfile path to the keyfile
+    def initialize(args = {})
+      @cipher = nil
+      @key = nil
+      self.digest = args.fetch(:digest, 2)
+      @host = args.fetch(:host, 'localhost')
+      @keyfile = args.fetch(:keyfile, nil)
+
+      read_sshkeyfile unless @keyfile.nil?
     end
-    
-    @cipher = val
-  end
 
-# This setter initializes the hash-algo
-#
-# @param [Integer] val digest. sha1 = 1, sha256 = 2
-  def digest=(val)
-    if val.to_i < 1 or val.to_i > 2
-      raise 'Invalid digest. Has to be 1 or 2'
+    # This setter initializes cipher
+    #
+    # @param [Integer] val the key-cipher.
+    # ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
+    def cipher=(val)
+      if val.to_i < 1 || val.to_i > 4
+        raise 'Invalid cipher. Has to be 0,1,2,3 or 4'
+      end
+
+      @cipher = val
     end
-    @digest = val
-  end
 
-# This helper-function converts binary data into hex
-#
-# @param [String] s Binary-string
-# @returns hex-string
-  def bin_to_hex(s)
-    s.each_byte.map { |b| b.to_s(16).rjust(2,'0') }.join
-  end
-
-# This helper-function selects the cipher using the given
-# type
-#
-# @params String type ssh-rsa = 1, ssh-dss = 2, ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
-  def cipher_by_type(type)
-    case type
-    when 'ssh-rsa'
-      self.cipher=1
-    when 'ssh-dss'
-      self.cipher=2
-    when 'ecdsa-sha2-nistp256'
-      self.cipher=3
-    when 'ssh-ed25519'
-      self.cipher=4
-    else
-      raise 'Unsupported cipher'
+    # This setter initializes the hash-algo
+    #
+    # @param [Integer] val digest. sha1 = 1, sha256 = 2
+    def digest=(val)
+      unless val.to_i == 1 || val.to_i == 2
+        raise 'Invalid digest. Has to be 1 or 2'
+      end
+      @digest = val
     end
-  end
 
-# This function reads in the key from file and
-# initializes the cipher- and key-variable
-  def read_sshkeyfile
-    raise 'No hostkey-file defined' if @keyfile.nil?
-    
-    data = File.read(@keyfile)
-    (type, @key) = data.split(" ")
-    self.cipher_by_type(type)
-  end
-
-# this function creates a Hash-String
-#
-# @returns [String] Hash-string of the key
-  def fingerprint
-    self.read_sshkeyfile if @key.nil?
-
-    case @digest.to_i
-    when 1
-      return OpenSSL::Digest::SHA1.new(Base64.strict_decode64(@key)).to_s
-    when 2
-      return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
-    else
-      raise 'Invalid digest. Has to be 1 or 2'
+    # This helper-function converts binary data into hex
+    #
+    # @param [String] s Binary-string
+    # @returns hex-string
+    def bin_to_hex(str)
+      str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
     end
-  end
 
-# This method prints the sshfp-record to stdout
-  def print
-    puts self
-  end
+    # This helper-function selects the cipher using the given
+    # type
+    #
+    # @params String type ssh-rsa = 1, ssh-dss = 2,
+    # ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
+    def cipher_by_type(type)
+      case type
+      when 'ssh-rsa'
+        self.cipher = 1
+      when 'ssh-dss'
+        self.cipher = 2
+      when 'ecdsa-sha2-nistp256'
+        self.cipher = 3
+      when 'ssh-ed25519'
+        self.cipher = 4
+      else
+        raise 'Unsupported cipher'
+      end
+    end
 
-# This method concats the sshfp-record
-#
-# @returns [String] sshfp dns-record as defined in rfc4255
-  def to_s
-    self.read_sshkeyfile if @cipher.nil?
-    "#{@host}. IN SSHFP #{@cipher} #{@digest} #{self.fingerprint}"
+    # This function reads in the key from file and
+    # initializes the cipher- and key-variable
+    def read_sshkeyfile
+      raise 'No hostkey-file defined' if @keyfile.nil?
+
+      data = File.read(@keyfile)
+      (type, @key) = data.split(' ')
+      cipher_by_type(type)
+    end
+
+    # this function creates a Hash-String
+    #
+    # @returns [String] Hash-string of the key
+    def fingerprint
+      read_sshkeyfile if @key.nil?
+
+      case @digest.to_i
+      when 1
+        return OpenSSL::Digest::SHA1.new(Base64.strict_decode64(@key)).to_s
+      when 2
+        return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
+      else
+        raise 'Invalid digest. Has to be 1 or 2'
+      end
+    end
+
+    # This method prints the sshfp-record to stdout
+    def print
+      puts self
+    end
+
+    # This method concats the sshfp-record
+    #
+    # @returns [String] sshfp dns-record as defined in rfc4255
+    def to_s
+      read_sshkeyfile if @cipher.nil?
+      "#{@host}. IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
+    end
   end
 end
-end
-
