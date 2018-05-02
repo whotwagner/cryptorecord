@@ -43,13 +43,13 @@ class Tlsa
     attr_accessor :host, :proto, :port, :cert
 	
     def initialize(args={})
-        self.mtype = args.fetch(:mtype,1)
-        self.selector = args.fetch(:selector,0)
-        @host = args.fetch(:host,"localhost")
-        @proto = args.fetch(:proto,"tcp")
-        @port = args.fetch(:port,443)
-        self.usage = args.fetch(:usage,3)
-        self.cert = args.fetch(:cert,nil)
+        self.mtype = args.fetch(:mtype, 1)
+        self.selector = args.fetch(:selector, 0)
+        @host = args.fetch(:host, "localhost")
+        @proto = args.fetch(:proto, "tcp")
+        @port = args.fetch(:port, 443)
+        self.usage = args.fetch(:usage, 3)
+        self.cert = args.fetch(:cert, nil)
     end
 
 # This setter initializes the selector
