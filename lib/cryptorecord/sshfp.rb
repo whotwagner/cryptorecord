@@ -87,15 +87,11 @@ class Sshfp
 	    s.each_byte.map { |b| b.to_s(16).rjust(2,'0') }.join
 	end
 
-# This function reads in the key from file and
-# initializes the cipher- and key-variable
-	def read_sshkeyfile
-		if(@keyfile == nil)
-			raise "No hostkey-file defined"
-		end
-
-		data = File.read(@keyfile)
-		(type,@key) = data.split(" ")
+# This helper-function selects the cipher using the given
+# type
+#
+# @params String type ssh-rsa = 1, ssh-dss = 2, ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
+	def cipher_by_type(type)
 		case type
 			when "ssh-rsa"
 				self.cipher=1
@@ -108,7 +104,16 @@ class Sshfp
 			else
 				raise "Unsupported cipher"
 		end
+	end
 
+# This function reads in the key from file and
+# initializes the cipher- and key-variable
+	def read_sshkeyfile
+		raise "No hostkey-file defined" if @keyfile.nil?
+
+		data = File.read(@keyfile)
+		(type,@key) = data.split(" ")
+		self.cipher_by_type(type)
 	end
 
 # this function creates a Hash-String
