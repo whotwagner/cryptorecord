@@ -60,7 +60,8 @@ module Cryptorecord
       when Mail::Address
         @uid = Mail::Address.new("<#{val.address}>")
       else
-        raise Cryptorecord::InvalidType, "Unsupported datatype #{val.class} for val"
+        raise Cryptorecord::InvalidType,
+              "Unsupported datatype #{val.class} for val"
       end
     end
 
