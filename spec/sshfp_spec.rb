@@ -50,24 +50,28 @@ describe Cryptorecord::Sshfp do
 
   it "raises exception if cipher is lower than 0" do
     sshfp = Cryptorecord::Sshfp.new
-    expect{sshfp.cipher = -1}.to raise_error(RuntimeError)
+    expect{sshfp.cipher = -1}.to raise_error(Cryptorecord::ArgumentError)
   end
 
   it "raises exception if cipher is bigger than 4" do
     sshfp = Cryptorecord::Sshfp.new
-    expect{sshfp.cipher = 5}.to raise_error(RuntimeError)
+    expect{sshfp.cipher = 5}.to raise_error(Cryptorecord::ArgumentError)
 
   end
 
   it "raises exception if digest is lower than 1" do
     sshfp = Cryptorecord::Sshfp.new
-    expect{sshfp.digest = 0}.to raise_error(RuntimeError)
+    expect{sshfp.digest = 0}.to raise_error(Cryptorecord::ArgumentError)
   end
 
   it "raises exception if digest is bigger than 2" do
     sshfp = Cryptorecord::Sshfp.new
-    expect{sshfp.digest = 3}.to raise_error(RuntimeError)
+    expect{sshfp.digest = 3}.to raise_error(Cryptorecord::ArgumentError)
   end
 
-
+  it "raises exception if read_sshkeyfile is called with nil" do
+    sshfp = Cryptorecord::Sshfp.new
+    expect{sshfp.read_sshkeyfile(nil)}.to raise_error(Cryptorecord::ArgumentError)
+    expect{sshfp.digest = 3}.to raise_error(Cryptorecord::ArgumentError)
+  end
 end

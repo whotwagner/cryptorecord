@@ -82,27 +82,6 @@ module Cryptorecord
       @uid.nil? ? nil : @uid.domain
     end
 
-    # This function trims the pgpkey so that all headers, footers,
-    # blanklines, and stuff
-    # are gone
-    #
-    # @param [String] val onne line of the pgpkey-block
-    #
-    # @returns An empty string if something has to be trimmed,
-    # otherwise the line itself
-    def trimpgpkey(val)
-      case val
-      when '-----BEGIN PGP PUBLIC KEY BLOCK-----'
-        ''
-      when  '-----END PGP PUBLIC KEY BLOCK-----'
-        ''
-      when  "^\s*\n$"
-        ''
-      else
-        val.to_s
-      end
-    end
-
     # This method sets the pgp-key
     #
     # @param [String] val PGP-Public-Key-Block
@@ -135,6 +114,29 @@ module Cryptorecord
     # @returns [String] openpgpkey dns-record as defined in rfc7929
     def to_s
       "#{localpart}._openpgpkey.#{domain}. IN OPENPGPKEY #{@key}"
+    end
+
+    private
+
+    # This function trims the pgpkey so that all headers, footers,
+    # blanklines, and stuff
+    # are gone
+    #
+    # @param [String] val onne line of the pgpkey-block
+    #
+    # @returns An empty string if something has to be trimmed,
+    # otherwise the line itself
+    def trimpgpkey(val)
+      case val
+      when '-----BEGIN PGP PUBLIC KEY BLOCK-----'
+        ''
+      when  '-----END PGP PUBLIC KEY BLOCK-----'
+        ''
+      when  "^\s*\n$"
+        ''
+      else
+        val.to_s
+      end
     end
   end
 end

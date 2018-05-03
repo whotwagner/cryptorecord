@@ -86,14 +86,6 @@ module Cryptorecord
       @usage = val
     end
 
-    # This helper-function converts binary data into hex
-    #
-    # @param [String] str Binary-string
-    # @returns hex-string
-    def bin_to_hex(str)
-      str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
-    end
-
     # this setter initializes the certificate
     #
     # @param [OpenSSL::X509::Certificate] val the x509 certificate
@@ -111,21 +103,6 @@ module Cryptorecord
     def read_certfile(file)
       data = File.read(file)
       self.cert = OpenSSL::X509::Certificate.new(data)
-    end
-
-    # This function selects the msg to hash using the selector
-    #
-    # @returns if selector = 0 it returns cert.to_der,
-    # if selector = 1 it returns cert.public_key.to_der
-    def msg
-      case @selector.to_i
-      when 0
-        return @cert.to_der
-      when 1
-        return @cert.public_key.to_der
-      end
-
-      raise 'Invalid selector. Has to be 0 or 1'
     end
 
     # this function creates a hash-string defined by mtype and selector
@@ -156,6 +133,31 @@ module Cryptorecord
     def to_s
       "_#{@port}._#{@proto}.#{@host}. IN TLSA"\
       " #{@usage} #{@selector} #{@mtype} #{fingerprint}"
+    end
+
+    private
+
+    # This function selects the msg to hash using the selector
+    #
+    # @returns if selector = 0 it returns cert.to_der,
+    # if selector = 1 it returns cert.public_key.to_der
+    def msg
+      case @selector.to_i
+      when 0
+        return @cert.to_der
+      when 1
+        return @cert.public_key.to_der
+      end
+
+      raise 'Invalid selector. Has to be 0 or 1'
+    end
+
+    # This helper-function converts binary data into hex
+    #
+    # @param [String] str Binary-string
+    # @returns hex-string
+    def bin_to_hex(str)
+      str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
     end
   end
 end

@@ -37,9 +37,9 @@ module Cryptorecord
     attr_reader :cipher, :digest, :key
     # @!attribute host
     #  stores the fqdn-host
-    # @!attribute hostkeyfile
+    # @!attribute keyfile
     #  stores the path to the hostkeyfile
-    attr_accessor :host, :hostkeyfile
+    attr_accessor :host, :keyfile
 
     # This constructor initializes cipher, key, digest, host and keyfile
     # If keyfile was provided, the key will automatically read from file
@@ -52,18 +52,19 @@ module Cryptorecord
       @key = nil
       self.digest = args.fetch(:digest, 2)
       @host = args.fetch(:host, 'localhost')
-      @keyfile = args.fetch(:keyfile, nil)
+      keyfile = args.fetch(:keyfile, nil)
 
-      read_sshkeyfile unless @keyfile.nil?
+      read_sshkeyfile(keyfile) unless keyfile.nil?
     end
 
     # This setter initializes cipher
     #
     # @param [Integer] val the key-cipher.
     # ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
+    # @raises Cryptorecord::ArgumentError
     def cipher=(val)
       if val.to_i < 1 || val.to_i > 4
-        raise 'Invalid cipher. Has to be 0,1,2,3 or 4'
+        raise ArgumentError, 'Invalid cipher. Has to be 0,1,2,3 or 4'
       end
 
       @cipher = val
@@ -72,47 +73,21 @@ module Cryptorecord
     # This setter initializes the hash-algo
     #
     # @param [Integer] val digest. sha1 = 1, sha256 = 2
+    # @raises Cryptorecord::ArgumentError
     def digest=(val)
       unless val.to_i == 1 || val.to_i == 2
-        raise 'Invalid digest. Has to be 1 or 2'
+        raise ArgumentError, 'Invalid digest. Has to be 1 or 2'
       end
       @digest = val
     end
 
-    # This helper-function converts binary data into hex
-    #
-    # @param [String] s Binary-string
-    # @returns hex-string
-    def bin_to_hex(str)
-      str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
-    end
-
-    # This helper-function selects the cipher using the given
-    # type
-    #
-    # @params String type ssh-rsa = 1, ssh-dss = 2,
-    # ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
-    def cipher_by_type(type)
-      case type
-      when 'ssh-rsa'
-        self.cipher = 1
-      when 'ssh-dss'
-        self.cipher = 2
-      when 'ecdsa-sha2-nistp256'
-        self.cipher = 3
-      when 'ssh-ed25519'
-        self.cipher = 4
-      else
-        raise Cryptorecord::ArgumentError, 'Unsupported cipher'
-      end
-    end
-
     # This function reads in the key from file and
     # initializes the cipher- and key-variable
-    def read_sshkeyfile
-      raise 'No hostkey-file defined' if @keyfile.nil?
+    # @raises Cryptorecord::ArgumentError
+    def read_sshkeyfile(keyfile)
+      raise ArgumentError, 'No hostkey-file defined' if keyfile.nil?
 
-      data = File.read(@keyfile)
+      data = File.read(keyfile)
       (type, @key) = data.split(' ')
       cipher_by_type(type)
     end
@@ -144,6 +119,26 @@ module Cryptorecord
     def to_s
       read_sshkeyfile if @cipher.nil?
       "#{@host}. IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
+    end
+
+    # This helper-function selects the cipher using the given
+    # type
+    #
+    # @params String type ssh-rsa = 1, ssh-dss = 2,
+    # ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
+    def cipher_by_type(type)
+      case type
+      when 'ssh-rsa'
+        self.cipher = 1
+      when 'ssh-dss'
+        self.cipher = 2
+      when 'ecdsa-sha2-nistp256'
+        self.cipher = 3
+      when 'ssh-ed25519'
+        self.cipher = 4
+      else
+        raise Cryptorecord::ArgumentError, 'Unsupported cipher'
+      end
     end
   end
 end
