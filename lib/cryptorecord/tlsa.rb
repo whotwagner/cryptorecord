@@ -42,6 +42,16 @@ module Cryptorecord
     # stores the network port
     attr_accessor :host, :proto, :port
 
+    # constructor for the tlsa-object
+    #
+    # @param [Hash] args
+    # @option args [Integer] mtype the matching type
+    # @option args [Integer] selector the selector for the tlsa-record
+    # @option args [String] host host-part for the tlsa-record 
+    # @option args [String] proto the network-protocol for the tlsa-record
+    # @option args [Integer] port the network-port for the tlsa-record
+    # @option args [Integer] usage the usage for this record
+    # @option args [String] cert the certificate as a string
     def initialize(args = {})
       self.mtype = args.fetch(:mtype, 1)
       self.selector = args.fetch(:selector, 0)
