@@ -118,14 +118,7 @@ module Cryptorecord
         return OpenSSL::Digest::SHA256.new(msg).to_s
       when 2
         return OpenSSL::Digest::SHA512.new(msg).to_s
-      else
-        raise MatchTypeError, 'Invalid match type. Has to be 0, 1 or 2'
       end
-    end
-
-    # This method prints the tlsa-record to stdout
-    def print
-      puts self
     end
 
     # This method concats the tlsa-record
@@ -146,12 +139,10 @@ module Cryptorecord
     def msg
       case @selector.to_i
       when 0
-        return @cert.to_der
+        @cert.to_der
       when 1
-        return @cert.public_key.to_der
+        @cert.public_key.to_der
       end
-
-      raise SelectorError, 'Invalid selector. Has to be 0 or 1'
     end
 
     # This helper-function converts binary data into hex

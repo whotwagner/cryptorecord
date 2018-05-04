@@ -105,11 +105,6 @@ module Cryptorecord
       self.key = data
     end
 
-    # This method prints the openpgpkey-record to stdout
-    def print
-      puts self
-    end
-
     # This method concats the openpgpkey-record
     #
     # @returns [String] openpgpkey dns-record as defined in rfc7929
@@ -133,7 +128,7 @@ module Cryptorecord
         ''
       when  '-----END PGP PUBLIC KEY BLOCK-----'
         ''
-      when  "^\s*\n$"
+      when  /^\s*\n$/
         ''
       else
         val.to_s

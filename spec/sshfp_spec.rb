@@ -74,4 +74,10 @@ describe Cryptorecord::Sshfp do
     expect{sshfp.read_file(nil)}.to raise_error(Cryptorecord::ArgumentError)
     expect{sshfp.digest = 3}.to raise_error(Cryptorecord::ArgumentError)
   end
+
+  it "unsupported cipher raises Cryptorecord::CipherError" do
+    expect{sshfp = Cryptorecord::Sshfp.new(:digest => 2, :keyfile => 'resources/ssh_host_unsupported_key.pub', :host => 'www.example.com')}.to raise_error(Cryptorecord::CipherError)
+  end
+
+
 end

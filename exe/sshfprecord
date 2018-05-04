@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
 require 'optparse'
 require 'ostruct'
 
@@ -11,10 +12,10 @@ def read_local_hostkeys(options)
     options.keyfile = file_name
     options.digest = 1
     sshfp = Cryptorecord::Sshfp.new(options.to_h)
-    sshfp.print
+    puts sshfp
     options.digest = 2
     sshfp = Cryptorecord::Sshfp.new(options.to_h)
-    sshfp.print
+    puts sshfp
   end
 end
 
@@ -50,5 +51,5 @@ if options.read == 1
   read_local_hostkeys(options)
 else
   sshfp = Cryptorecord::Sshfp.new(options.to_h)
-  sshfp.print
+  puts sshfp
 end

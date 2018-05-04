@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
 require 'optparse'
 require 'ostruct'
 
@@ -45,4 +46,4 @@ end
 
 tlsa = Cryptorecord::Tlsa.new(options.to_h)
 tlsa.read_file(options.certfile)
-tlsa.print
+puts tlsa

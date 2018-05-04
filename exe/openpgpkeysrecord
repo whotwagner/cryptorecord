@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
 require 'optparse'
 require 'ostruct'
 
@@ -32,4 +33,4 @@ end
 
 openpgpkeys = Cryptorecord::Openpgpkeys.new(options.to_h)
 openpgpkeys.read_file(options.keyfile)
-openpgpkeys.print
+puts openpgpkeys

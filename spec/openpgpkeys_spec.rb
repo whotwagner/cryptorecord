@@ -41,4 +41,9 @@ describe Cryptorecord::Openpgpkeys do
    sshfp = Cryptorecord::Openpgpkeys.new(:uid => "hacky@hacktheplanet.com")
    expect{sshfp.read_file(nil)}.to raise_error(Cryptorecord::ArgumentError)
  end
+
+ it "trimpgpkey returns empty string on empty line" do
+   sshfp = Cryptorecord::Openpgpkeys.new
+   expect(sshfp.send :trimpgpkey, "\n").to eq('')
+ end
 end

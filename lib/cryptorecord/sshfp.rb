@@ -102,14 +102,7 @@ module Cryptorecord
         return OpenSSL::Digest::SHA1.new(Base64.strict_decode64(@key)).to_s
       when 2
         return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
-      else
-        raise Cryptorecord::DigestError, 'Invalid digest. Has to be 1 or 2'
       end
-    end
-
-    # This method prints the sshfp-record to stdout
-    def print
-      puts self
     end
 
     # This method concats the sshfp-record
