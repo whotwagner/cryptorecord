@@ -35,9 +35,9 @@ module Cryptorecord
 
     # This constructor initializes domain, uid and key
     #
-    # @param [String|Mail::Address] uid email-address associated
-    # with the pgp-key
-    # @param [String] key pgp-key
+    # @param [Hash] args the options to initialize the object with
+    # @option args [String] uid email-address associated with the pgp-key
+    # @option args [String] key pgp-key
     def initialize(args = {})
       self.uid = args.fetch(:uid, nil)
       self.key = args.fetch(:key, nil)
@@ -47,7 +47,7 @@ module Cryptorecord
     # sure this is the proper uid for the pgp-key!
     #
     # @param [String|Mail::Address] val The email-address without brackets
-    # @raises Cryptorecord::ArgumentError
+    # @raise Cryptorecord::ArgumentError
     def uid=(val)
       if val.nil?
         @uid = nil
@@ -69,7 +69,7 @@ module Cryptorecord
     # uid-local-part(email-address) as defined
     # in rfc7929
     #
-    # @returns [String] the local-part of the keys
+    # @return [String] the local-part of the keys
     # uid(email-address) as SHA256 reduced to 56bytes or nil
     def localpart
       @uid.nil? ? nil : OpenSSL::Digest::SHA256.new(@uid.local.to_s).to_s[0..55]
@@ -77,7 +77,7 @@ module Cryptorecord
 
     # This getter returns the domain-part of the uid(email-address) or nil
     #
-    # @returns [String] domain the domain-part of the keys uid(email-address)
+    # @return [String] domain the domain-part of the keys uid(email-address)
     def domain
       @uid.nil? ? nil : @uid.domain
     end
@@ -98,7 +98,7 @@ module Cryptorecord
     # This method reads the pgp-key from a given file
     #
     # @param [String] keyfile Path to the keyfile
-    # @raises Cryptorecord::ArgumentError
+    # @raise Cryptorecord::ArgumentError
     def read_file(keyfile)
       raise Cryptorecord::ArgumentError, 'No keyfile defined' if keyfile.nil?
       data = File.read(keyfile)
@@ -107,7 +107,7 @@ module Cryptorecord
 
     # This method concats the openpgpkey-record
     #
-    # @returns [String] openpgpkey dns-record as defined in rfc7929
+    # @return [String] openpgpkey dns-record as defined in rfc7929
     def to_s
       "#{localpart}._openpgpkey.#{domain}. IN OPENPGPKEY #{@key}"
     end
@@ -120,7 +120,7 @@ module Cryptorecord
     #
     # @param [String] val onne line of the pgpkey-block
     #
-    # @returns An empty string if something has to be trimmed,
+    # @return An empty string if something has to be trimmed,
     # otherwise the line itself
     def trimpgpkey(val)
       case val

@@ -41,10 +41,10 @@ module Cryptorecord
 
     # This constructor initializes cipher, key, digest, host and keyfile
     # If keyfile was provided, the key will automatically read from file
-    #
-    # @param [Integer] digest sha1 = 1, sha256 = 2
-    # @param [String] host fqdn of the host
-    # @param [String] keyfile path to the keyfile
+    # @param [Hash] args the options to initialize the object with
+    # @option args [Integer] digest sha1 = 1, sha256 = 2
+    # @option args [String] host fqdn of the host
+    # @option args [String] keyfile path to the keyfile
     def initialize(args = {})
       @cipher = nil
       @key = nil
@@ -59,7 +59,7 @@ module Cryptorecord
     #
     # @param [Integer] val the key-cipher.
     # ssh-rsa = 1, ssh-dss = 2, ecdsa = 3 and ed25519 = 4
-    # @raises Cryptorecord::ArgumentError
+    # @raise Cryptorecord::ArgumentError
     def cipher=(val)
       if val.to_i < 1 || val.to_i > 4
         raise ArgumentError, 'Invalid cipher. Has to be 0,1,2,3 or 4'
@@ -71,7 +71,7 @@ module Cryptorecord
     # This setter initializes the hash-algo
     #
     # @param [Integer] val digest. sha1 = 1, sha256 = 2
-    # @raises Cryptorecord::ArgumentError
+    # @raise Cryptorecord::ArgumentError
     def digest=(val)
       unless val.to_i == 1 || val.to_i == 2
         raise ArgumentError, 'Invalid digest. Has to be 1 or 2'
@@ -81,7 +81,7 @@ module Cryptorecord
 
     # This function reads in the key from file and
     # initializes the cipher- and key-variable
-    # @raises Cryptorecord::ArgumentError
+    # @raise Cryptorecord::ArgumentError
     def read_file(keyfile)
       raise ArgumentError, 'No hostkey-file defined' if keyfile.nil?
 
@@ -92,8 +92,8 @@ module Cryptorecord
 
     # this function creates a Hash-String
     #
-    # @returns [String] Hash-string of the key
-    # @raises Cryptorecord::DigestError
+    # @return [String] Hash-string of the key
+    # @raise Cryptorecord::DigestError
     def fingerprint
       raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
 
@@ -107,8 +107,8 @@ module Cryptorecord
 
     # This method concats the sshfp-record
     #
-    # @returns [String] sshfp dns-record as defined in rfc4255
-    # @raises Cryptorecord::KeyError
+    # @return [String] sshfp dns-record as defined in rfc4255
+    # @raise Cryptorecord::KeyError
     def to_s
       raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
       "#{@host}. IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
@@ -119,9 +119,9 @@ module Cryptorecord
     # This helper-function selects the cipher using the given
     # type
     #
-    # @params String type ssh-rsa = 1, ssh-dss = 2,
+    # @param [String] type ssh-rsa = 1, ssh-dss = 2,
     # ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
-    # @raises Cryptorecord::CipherError
+    # @raise Cryptorecord::CipherError
     def cipher_by_type(type)
       case type
       when 'ssh-rsa'
