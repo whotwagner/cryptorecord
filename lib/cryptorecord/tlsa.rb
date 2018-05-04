@@ -118,7 +118,7 @@ module Cryptorecord
       when 2
         return OpenSSL::Digest::SHA512.new(msg).to_s
       else
-        raise 'Invalid match type. Has to be 0, 1 or 2'
+        raise MatchTypeError, 'Invalid match type. Has to be 0, 1 or 2'
       end
     end
 
@@ -149,7 +149,7 @@ module Cryptorecord
         return @cert.public_key.to_der
       end
 
-      raise 'Invalid selector. Has to be 0 or 1'
+      raise SelectorError, 'Invalid selector. Has to be 0 or 1'
     end
 
     # This helper-function converts binary data into hex

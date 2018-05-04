@@ -98,6 +98,7 @@ module Cryptorecord
     # This method reads the pgp-key from a given file
     #
     # @param [String] keyfile Path to the keyfile
+    # @raises Cryptorecord::ArgumentError
     def read_gpgkeyfile(keyfile)
       raise Cryptorecord::ArgumentError, 'No keyfile defined' if keyfile.nil?
       data = File.read(keyfile)

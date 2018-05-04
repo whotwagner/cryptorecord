@@ -95,6 +95,7 @@ module Cryptorecord
     # this function creates a Hash-String
     #
     # @returns [String] Hash-string of the key
+    # @raises Cryptorecord::DigestError
     def fingerprint
       read_sshkeyfile if @key.nil?
 
@@ -104,7 +105,7 @@ module Cryptorecord
       when 2
         return OpenSSL::Digest::SHA256.new(Base64.strict_decode64(@key)).to_s
       else
-        raise 'Invalid digest. Has to be 1 or 2'
+        raise Cryptorecord::DigestError, 'Invalid digest. Has to be 1 or 2'
       end
     end
 
@@ -121,11 +122,14 @@ module Cryptorecord
       "#{@host}. IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
     end
 
+    private
+
     # This helper-function selects the cipher using the given
     # type
     #
     # @params String type ssh-rsa = 1, ssh-dss = 2,
     # ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
+    # @raises Cryptorecord::CipherError
     def cipher_by_type(type)
       case type
       when 'ssh-rsa'
@@ -137,7 +141,7 @@ module Cryptorecord
       when 'ssh-ed25519'
         self.cipher = 4
       else
-        raise Cryptorecord::ArgumentError, 'Unsupported cipher'
+        raise Cryptorecord::CipherError, 'Unsupported cipher'
       end
     end
   end
