@@ -114,6 +114,16 @@ sshfp.read_file("resources/hacky.asc")
 puts sshfp
 
 ```
+## Documentation
+
+[rubydoc.info](https://www.rubydoc.info/github/whotwagner/cryptorecord/master)
+
+## Resources
+
+  * [RFC TLSA](https://tools.ietf.org/html/rfc6698)
+  * [RFC DANE/SMTP](https://tools.ietf.org/html/rfc7672)
+  * [RFC SSHFP](https://tools.ietf.org/html/rfc4255)
+  * [RFC OPENPGPKEYS](https://tools.ietf.org/html/rfc7929)
 
 ## Development
 
