@@ -47,7 +47,7 @@ module Cryptorecord
     # @param [Hash] args
     # @option args [Integer] mtype the matching type
     # @option args [Integer] selector the selector for the tlsa-record
-    # @option args [String] host host-part for the tlsa-record 
+    # @option args [String] host host-part for the tlsa-record
     # @option args [String] proto the network-protocol for the tlsa-record
     # @option args [Integer] port the network-port for the tlsa-record
     # @option args [Integer] usage the usage for this record
