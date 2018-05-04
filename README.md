@@ -87,7 +87,7 @@ port = 443
 proto = "tcp"
 host = "www.example.com"
 tlsa = Cryptorecord::Tlsa.new(:selector => selector, :mtype => mtype, :usage => usage, :port => port, :proto => proto, :host => host )
-tlsa.read_certfile("/etc/ssl/certs/ssl-cert-snakeoil.pem")
+tlsa.read_file("/etc/ssl/certs/ssl-cert-snakeoil.pem")
 puts tlsa
 ```
 
@@ -110,7 +110,7 @@ puts sshfp
 require 'cryptorecord'
 
 sshfp = Cryptorecord::Openpgpkeys.new(:uid => "hacky@hacktheplanet.com")
-sshfp.read_gpgkeyfile("resources/hacky.asc")
+sshfp.read_file("resources/hacky.asc")
 puts sshfp
 
 ```

@@ -100,7 +100,7 @@ module Cryptorecord
     # This function reads in the certificate from file
     #
     # @param [String] file path to certificate-file
-    def read_certfile(file)
+    def read_file(file)
       data = File.read(file)
       self.cert = OpenSSL::X509::Certificate.new(data)
     end

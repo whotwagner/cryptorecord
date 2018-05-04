@@ -31,5 +31,5 @@ unless defined? options.uid
 end
 
 openpgpkeys = Cryptorecord::Openpgpkeys.new(options.to_h)
-openpgpkeys.read_gpgkeyfile(options.keyfile)
+openpgpkeys.read_file(options.keyfile)
 openpgpkeys.print

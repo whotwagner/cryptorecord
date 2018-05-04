@@ -69,9 +69,9 @@ describe Cryptorecord::Sshfp do
     expect{sshfp.digest = 3}.to raise_error(Cryptorecord::ArgumentError)
   end
 
-  it "raises exception if read_sshkeyfile is called with nil" do
+  it "raises exception if read_file is called with nil" do
     sshfp = Cryptorecord::Sshfp.new
-    expect{sshfp.read_sshkeyfile(nil)}.to raise_error(Cryptorecord::ArgumentError)
+    expect{sshfp.read_file(nil)}.to raise_error(Cryptorecord::ArgumentError)
     expect{sshfp.digest = 3}.to raise_error(Cryptorecord::ArgumentError)
   end
 end

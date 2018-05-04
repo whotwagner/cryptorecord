@@ -44,5 +44,5 @@ unless defined? options.certfile
 end
 
 tlsa = Cryptorecord::Tlsa.new(options.to_h)
-tlsa.read_certfile(options.certfile)
+tlsa.read_file(options.certfile)
 tlsa.print

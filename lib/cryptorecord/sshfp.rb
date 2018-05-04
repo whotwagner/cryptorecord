@@ -37,9 +37,7 @@ module Cryptorecord
     attr_reader :cipher, :digest, :key
     # @!attribute host
     #  stores the fqdn-host
-    # @!attribute keyfile
-    #  stores the path to the hostkeyfile
-    attr_accessor :host, :keyfile
+    attr_accessor :host
 
     # This constructor initializes cipher, key, digest, host and keyfile
     # If keyfile was provided, the key will automatically read from file
@@ -54,7 +52,7 @@ module Cryptorecord
       @host = args.fetch(:host, 'localhost')
       keyfile = args.fetch(:keyfile, nil)
 
-      read_sshkeyfile(keyfile) unless keyfile.nil?
+      read_file(keyfile) unless keyfile.nil?
     end
 
     # This setter initializes cipher
@@ -84,7 +82,7 @@ module Cryptorecord
     # This function reads in the key from file and
     # initializes the cipher- and key-variable
     # @raises Cryptorecord::ArgumentError
-    def read_sshkeyfile(keyfile)
+    def read_file(keyfile)
       raise ArgumentError, 'No hostkey-file defined' if keyfile.nil?
 
       data = File.read(keyfile)
@@ -97,7 +95,7 @@ module Cryptorecord
     # @returns [String] Hash-string of the key
     # @raises Cryptorecord::DigestError
     def fingerprint
-      read_sshkeyfile if @key.nil?
+      raise Cryptorecord::KeyError, "No certificate defined" if @key.nil?
 
       case @digest.to_i
       when 1
@@ -117,8 +115,9 @@ module Cryptorecord
     # This method concats the sshfp-record
     #
     # @returns [String] sshfp dns-record as defined in rfc4255
+    # @raises Cryptorecord::KeyError
     def to_s
-      read_sshkeyfile if @cipher.nil?
+      raise Cryptorecord::KeyError, "No certificate defined"  if @key.nil?
       "#{@host}. IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
     end
 

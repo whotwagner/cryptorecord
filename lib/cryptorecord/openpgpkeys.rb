@@ -99,7 +99,7 @@ module Cryptorecord
     #
     # @param [String] keyfile Path to the keyfile
     # @raises Cryptorecord::ArgumentError
-    def read_gpgkeyfile(keyfile)
+    def read_file(keyfile)
       raise Cryptorecord::ArgumentError, 'No keyfile defined' if keyfile.nil?
       data = File.read(keyfile)
       self.key = data
