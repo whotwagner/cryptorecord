@@ -95,7 +95,7 @@ module Cryptorecord
     # @returns [String] Hash-string of the key
     # @raises Cryptorecord::DigestError
     def fingerprint
-      raise Cryptorecord::KeyError, "No certificate defined" if @key.nil?
+      raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
 
       case @digest.to_i
       when 1
@@ -117,7 +117,7 @@ module Cryptorecord
     # @returns [String] sshfp dns-record as defined in rfc4255
     # @raises Cryptorecord::KeyError
     def to_s
-      raise Cryptorecord::KeyError, "No certificate defined"  if @key.nil?
+      raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
       "#{@host}. IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
     end
 
