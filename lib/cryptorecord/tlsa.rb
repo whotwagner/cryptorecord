@@ -107,6 +107,7 @@ module Cryptorecord
 
     # this function creates a hash-string defined by mtype and selector
     # @returns depending on mtype and selector a proper hash will be returned
+    # @raises Cryptorecord::MatchTypeError
     def fingerprint
       raise 'No certificate defined' if @cert.nil?
 
@@ -141,6 +142,7 @@ module Cryptorecord
     #
     # @returns if selector = 0 it returns cert.to_der,
     # if selector = 1 it returns cert.public_key.to_der
+    # @raises Cryptorecord::SelectorError
     def msg
       case @selector.to_i
       when 0
