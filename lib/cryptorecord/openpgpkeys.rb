@@ -27,10 +27,8 @@ module Cryptorecord
   # openphpkeys-dns-records. Instances must have an
   # uid. The PGP-Key can be read from file
   class Openpgpkeys
-    # @!attribute [r] uid
-    #  stores the user-id
-    # @!attribute [r] key
-    #  stores the pgp-key
+    # @attr_reader [String] uid stores the user-id
+    # @attr_reader [String] key stores the pgp-key
     attr_reader :uid, :key
 
     # This constructor initializes domain, uid and key
