@@ -81,6 +81,7 @@ module Cryptorecord
 
     # This function reads in the key from file and
     # initializes the cipher- and key-variable
+    # @param [String] keyfile path to the ssh-hostkey-file
     # @raise Cryptorecord::ArgumentError
     def read_file(keyfile)
       raise ArgumentError, 'No hostkey-file defined' if keyfile.nil?
