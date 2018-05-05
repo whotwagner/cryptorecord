@@ -24,22 +24,22 @@ module Cryptorecord
   require 'openssl'
   # Cryptorecord::Tlsa-class generates
   # tlsa-dns-records.
+  # @!attribute [r] selector
+  # stores the selector
+  # @!attribute [r] mtype
+  # stores the match-type
+  # @!attribute [r] usage
+  # stores the usage
+  # @!attribute cert
+  # stores the x509 certificate
+  # @!attribute host
+  # stores the fqdn for the record
+  # @!attribute proto
+  # stores the network protocol
+  # @!attribute port
+  # stores the network port
   class Tlsa
-    # @!attribute [r] selector
-    # stores the selector
-    # @!attribute [r] mtype
-    # stores the match-type
-    # @!attribute [r] usage
-    # stores the usage
-    # @!attribute cert
-    # stores the x509 certificate
     attr_reader :selector, :mtype, :usage, :cert
-    # @!attribute host
-    # stores the fqdn for the record
-    # @!attribute proto
-    # stores the network protocol
-    # @!attribute port
-    # stores the network port
     attr_accessor :host, :proto, :port
 
     # constructor for the tlsa-object

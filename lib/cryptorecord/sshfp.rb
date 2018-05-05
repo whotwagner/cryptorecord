@@ -26,14 +26,14 @@ module Cryptorecord
   # Cryptorecord::Sshfp-class generates
   # sshfp-dns-records. The ssh-host-keys are
   # read from files
+  # @!attribute [r] cipher
+  #   stores the cipher. ssh-rsa = 1, ssh-dss = 2,
+  #   ecdsa = 3 and ed25519 = 4
+  # @!attribute [r] digest stores the digest. sha1 = 1, sha256 = 2
+  # @!attribute [r]  key stores the ssh-host-key
+  # @!attribute host stores the fqdn-host
   class Sshfp
-    # @!attribute [r] cipher
-    #   stores the cipher. ssh-rsa = 1, ssh-dss = 2,
-    #   ecdsa = 3 and ed25519 = 4
-    # @!attribute [r] digest stores the digest. sha1 = 1, sha256 = 2
-    # @!attribute [r]  key stores the ssh-host-key
     attr_reader :cipher, :digest, :key
-    # @!attribute host stores the fqdn-host
     attr_accessor :host
 
     # This constructor initializes cipher, key, digest, host and keyfile

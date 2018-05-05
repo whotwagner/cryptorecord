@@ -26,11 +26,11 @@ module Cryptorecord
   # Cryptorecord::Openpgpkeys-class generates
   # openphpkeys-dns-records. Instances must have an
   # uid. The PGP-Key can be read from file
+  # @!attribute [r] uid
+  #   @return [Mail::Address] the userid or nil
+  # @!attribute [r] key
+  #   @return [String] the pgp-key as a string
   class Openpgpkeys
-    # @!attribute [r] uid
-    #   @return [Mail::Address] the userid or nil
-    # @!attribute [r] key
-    #   @return [String] the pgp-key as a string
     attr_reader :uid, :key
 
     # This constructor initializes uid and key by calling the setters.
