@@ -31,9 +31,9 @@ module Cryptorecord
   #     ecdsa = 3 and ed25519 = 4
   # @!attribute [r] digest
   #   @return [Integer] sha1 = 1, sha256 = 2
-  # @!attribute [r]  key 
+  # @!attribute [r]  key
   #   @return [String] the ssh-host-key, without the type and comment
-  # @!attribute host 
+  # @!attribute host
   #   @return [String] the fqdn-host
   class Sshfp
     attr_reader :cipher, :digest, :key
