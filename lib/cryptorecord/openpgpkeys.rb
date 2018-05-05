@@ -45,8 +45,8 @@ module Cryptorecord
     end
 
     # This setter takes the argument val to create a Mail::Address-object.
-    #  The argument val can be a email-address-string or a Mail::Address-object.
-    #  Make sure this is the proper uid for the pgp-key!
+    # The argument val can be a email-address-string or a Mail::Address-object.
+    # Make sure this is the proper uid for the pgp-key!
     #
     # @param [String|Mail::Address] val The email-address without brackets
     # @raise Cryptorecord::ArgumentError

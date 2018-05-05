@@ -89,6 +89,7 @@ module Cryptorecord
     #
     # @param [Integer] val Usage for the association.
     #   0 = PKIX-CA, 1 = PKIX-EE, 2 = DANE-TA, 3 = DANE-EE
+    # @raise Cryptorecord::ArgumentError
     def usage=(val)
       if val.to_i < 0 || val.to_i > 3
         raise ArgumentError, 'Invalid usage. Has to be 0,1,2 or 3'
@@ -99,6 +100,7 @@ module Cryptorecord
     # this setter initializes the certificate
     #
     # @param [OpenSSL::X509::Certificate] val the x509 certificate
+    # @raise Cryptorecord::ArgumentError
     def cert=(val)
       unless val.is_a?(OpenSSL::X509::Certificate) || val.nil?
         raise ArgumentError, 'cert has to be a OpenSSL::X509::Certificate'
@@ -119,7 +121,7 @@ module Cryptorecord
     # @return depending on mtype and selector a proper hash will be returned
     # @raise Cryptorecord::MatchTypeError
     def fingerprint
-      raise 'No certificate defined' if @cert.nil?
+      raise Cryptorecord::MatchTypeError, 'No certificate defined' if @cert.nil?
 
       case @mtype.to_i
       when 0
@@ -145,7 +147,6 @@ module Cryptorecord
     #
     # @return if selector = 0 it returns cert.to_der,
     # if selector = 1 it returns cert.public_key.to_der
-    # @raise Cryptorecord::SelectorError
     def msg
       case @selector.to_i
       when 0

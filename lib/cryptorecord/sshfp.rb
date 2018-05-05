@@ -41,6 +41,7 @@ module Cryptorecord
 
     # This constructor initializes cipher, key, digest, host and keyfile
     # If keyfile was provided, the key will automatically read from file
+    #
     # @param [Hash] args the options to initialize the object with
     # @option args [Integer] digest sha1 = 1, sha256 = 2
     # @option args [String] host fqdn of the host
@@ -94,7 +95,7 @@ module Cryptorecord
     # this function creates a Hash-String
     #
     # @return [String] Hash-string of the key
-    # @raise Cryptorecord::DigestError
+    # @raise Cryptorecord::KeyError
     def fingerprint
       raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
 
@@ -123,6 +124,7 @@ module Cryptorecord
     # @param [String] type ssh-rsa = 1, ssh-dss = 2,
     # ecdsa-sha2-nistp256 = 3, ssh-ed25519 = 4
     # @raise Cryptorecord::CipherError
+    # @return [Integer] integer value of the cipher
     def cipher_by_type(type)
       case type
       when 'ssh-rsa'
