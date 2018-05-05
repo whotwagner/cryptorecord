@@ -33,7 +33,8 @@ module Cryptorecord
     #   @return [String] the pgp-key as a string
     attr_reader :uid, :key
 
-    # This constructor initializes domain, uid and key
+    # This constructor initializes uid and key by calling the setters.
+    # @see uid=
     #
     # @param [Hash] args the options to initialize the object with
     # @option args [String] uid email-address associated with the pgp-key
@@ -43,8 +44,9 @@ module Cryptorecord
       self.key = args.fetch(:key, nil)
     end
 
-    # This setter initializes the uid with an Mail::Address-object. Make
-    # sure this is the proper uid for the pgp-key!
+    # This setter takes the argument val to create a Mail::Address-object.
+    #  The argument val can be a email-address-string or a Mail::Address-object.
+    #  Make sure this is the proper uid for the pgp-key!
     #
     # @param [String|Mail::Address] val The email-address without brackets
     # @raise Cryptorecord::ArgumentError
@@ -70,7 +72,7 @@ module Cryptorecord
     # in rfc7929
     #
     # @return [String] the local-part of the keys
-    # uid(email-address) as SHA256 reduced to 56bytes or nil
+    #  uid(email-address) as SHA256 reduced to 56bytes or nil
     def localpart
       @uid.nil? ? nil : OpenSSL::Digest::SHA256.new(@uid.local.to_s).to_s[0..55]
     end
@@ -82,9 +84,11 @@ module Cryptorecord
       @uid.nil? ? nil : @uid.domain
     end
 
-    # This method sets the pgp-key
+    # This method sets the pgp-key. It takes the public-key-block
+    # and trims the header, blankline and checksum
     #
-    # @param [String] val PGP-Public-Key-Block
+    # @param [String] val PGP-Public-Key-Block(ASCII Armor)
+    #  as defined in rfc4880 section 6.2
     def key=(val)
       return if val.nil?
 
