@@ -27,11 +27,14 @@ module Cryptorecord
   # sshfp-dns-records. The ssh-host-keys are
   # read from files
   # @!attribute [r] cipher
-  #   stores the cipher. ssh-rsa = 1, ssh-dss = 2,
-  #   ecdsa = 3 and ed25519 = 4
-  # @!attribute [r] digest stores the digest. sha1 = 1, sha256 = 2
-  # @!attribute [r]  key stores the ssh-host-key
-  # @!attribute host stores the fqdn-host
+  #   @return [Integer]the cipher. ssh-rsa = 1, ssh-dss = 2,
+  #     ecdsa = 3 and ed25519 = 4
+  # @!attribute [r] digest
+  #   @return [Integer] sha1 = 1, sha256 = 2
+  # @!attribute [r]  key 
+  #   @return [String] the ssh-host-key, without the type and comment
+  # @!attribute host 
+  #   @return [String] the fqdn-host
   class Sshfp
     attr_reader :cipher, :digest, :key
     attr_accessor :host
