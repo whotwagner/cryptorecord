@@ -116,7 +116,7 @@ puts sshfp
 ```
 ## Documentation
 
-[rubydoc.info](https://www.rubydoc.info/github/whotwagner/cryptorecord/master)
+[rubydoc.info](https://www.rubydoc.info/gems/cryptorecord/)
 
 ## Resources
 
