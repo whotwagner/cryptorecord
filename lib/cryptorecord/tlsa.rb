@@ -136,14 +136,14 @@ module Cryptorecord
     # This method returns the left-hand name of a dns-record
     # @return [String] left-hand name of a dns-record
     def left
-      "_#{@port}._#{@proto}.#{@host}"
+      "_#{@port}._#{@proto}.#{@host}."
     end
 
     # This method concats the tlsa-record
     #
     # @return [String] tlsa dns-record as defined in rfc6698
     def to_s
-      "#{left}. IN TLSA"\
+      "#{left} IN TLSA"\
       " #{@usage} #{@selector} #{@mtype} #{fingerprint}"
     end
 
