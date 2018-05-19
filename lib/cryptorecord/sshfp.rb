@@ -113,13 +113,19 @@ module Cryptorecord
       "#{@host}."
     end
 
+    # This method returns the right-hand content of a dns-record
+    # @return [String] right-hand content of a dns-record
+    def right
+      "#{@cipher} #{@digest} #{fingerprint}"
+    end
+
     # This method concats the sshfp-record
     #
     # @return [String] sshfp dns-record as defined in rfc4255
     # @raise Cryptorecord::KeyError
     def to_s
       raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
-      "#{left} IN SSHFP #{@cipher} #{@digest} #{fingerprint}"
+      "#{left} IN SSHFP #{right}"
     end
 
     private

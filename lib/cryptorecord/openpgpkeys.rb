@@ -115,11 +115,17 @@ module Cryptorecord
       "#{localpart}._openpgpkey.#{domain}."
     end
 
+    # This method returns the right-hand content of a dns-record
+    # @return [String] right-hand content of a dns-record
+    def right
+      @key.to_s
+    end
+
     # This method concats the openpgpkey-record
     #
     # @return [String] openpgpkey dns-record as defined in rfc7929
     def to_s
-      "#{left} IN OPENPGPKEY #{@key}"
+      "#{left} IN OPENPGPKEY #{right}"
     end
 
     private
