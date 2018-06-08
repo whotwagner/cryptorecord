@@ -109,7 +109,7 @@ puts sshfp
 
 require 'cryptorecord'
 
-sshfp = Cryptorecord::Openpgpkeys.new(:uid => "hacky@hacktheplanet.com")
+sshfp = Cryptorecord::Openpgpkey.new(:uid => "hacky@hacktheplanet.com")
 sshfp.read_file("resources/hacky.asc")
 puts sshfp
 

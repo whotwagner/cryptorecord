@@ -1,5 +1,5 @@
 require 'cryptorecord/version'
-require 'cryptorecord/openpgpkeys'
+require 'cryptorecord/openpgpkey'
 require 'cryptorecord/tlsa'
 require 'cryptorecord/sshfp'
 require 'cryptorecord/exceptions'
