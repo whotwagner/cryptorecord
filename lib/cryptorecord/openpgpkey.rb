@@ -23,14 +23,14 @@
 module Cryptorecord
   require 'openssl'
   require 'mail'
-  # Cryptorecord::Openpgpkeys-class generates
+  # Cryptorecord::Openpgpkey-class generates
   # openphpkeys-dns-records. Instances must have an
   # uid. The PGP-Key can be read from file
   # @!attribute [r] uid
   #   @return [Mail::Address] the userid or nil
   # @!attribute [r] key
   #   @return [String] the pgp-key as a string
-  class Openpgpkeys
+  class Openpgpkey
     attr_reader :uid, :key
 
     # This constructor initializes uid and key by calling the setters.
