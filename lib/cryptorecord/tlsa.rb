@@ -32,7 +32,7 @@ module Cryptorecord
   #   @return [Integer] the usage
   # @!attribute [r] cert
   #   @return [String] the x509 certificate
-  # @!attribute [r] type
+  # @!attribute [r] rectype
   #   @return [String] "TLSA"
   # @!attribute host
   #   @return [String] the fqdn for the record
@@ -41,7 +41,7 @@ module Cryptorecord
   # @!attribute port
   #   @return [String] the network port
   class Tlsa
-    attr_reader :selector, :mtype, :usage, :cert, :type
+    attr_reader :selector, :mtype, :usage, :cert, :rectype
     attr_accessor :host, :proto, :port
 
     # constructor for the tlsa-object
@@ -62,7 +62,7 @@ module Cryptorecord
       @port = args.fetch(:port, 443)
       self.usage = args.fetch(:usage, 3)
       self.cert = args.fetch(:cert, nil)
-      @type = "TLSA"
+      @rectype = "TLSA"
     end
 
     # This setter initializes the selector
@@ -152,7 +152,7 @@ module Cryptorecord
     #
     # @return [String] tlsa dns-record as defined in rfc6698
     def to_s
-      "#{left} IN #{@type} #{right}"
+      "#{left} IN #{@rectype} #{right}"
     end
 
     private

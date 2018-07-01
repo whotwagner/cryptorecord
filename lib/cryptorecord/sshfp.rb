@@ -33,12 +33,12 @@ module Cryptorecord
   #   @return [Integer] sha1 = 1, sha256 = 2
   # @!attribute [r]  key
   #   @return [String] the ssh-host-key, without the type and comment
-  # @!attribute [r] type
+  # @!attribute [r] rectype
   #   @return [String] "SSHFP"
   # @!attribute host
   #   @return [String] the fqdn-host
   class Sshfp
-    attr_reader :cipher, :digest, :key
+    attr_reader :cipher, :digest, :key, :rectype
     attr_accessor :host
 
     # This constructor initializes cipher, key, digest, host and keyfile
@@ -54,7 +54,7 @@ module Cryptorecord
       self.digest = args.fetch(:digest, 2)
       @host = args.fetch(:host, 'localhost')
       keyfile = args.fetch(:keyfile, nil)
-      @type = "SSHFP"
+      @rectype = "SSHFP"
       read_file(keyfile) unless keyfile.nil?
     end
 
@@ -127,7 +127,7 @@ module Cryptorecord
     # @raise Cryptorecord::KeyError
     def to_s
       raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
-      "#{left} IN #{@type} #{right}"
+      "#{left} IN #{@rectype} #{right}"
     end
 
     private
