@@ -54,7 +54,7 @@ module Cryptorecord
       self.digest = args.fetch(:digest, 2)
       @host = args.fetch(:host, 'localhost')
       keyfile = args.fetch(:keyfile, nil)
-      @rectype = "SSHFP"
+      @rectype = 'SSHFP'
       read_file(keyfile) unless keyfile.nil?
     end
 

@@ -62,7 +62,7 @@ module Cryptorecord
       @port = args.fetch(:port, 443)
       self.usage = args.fetch(:usage, 3)
       self.cert = args.fetch(:cert, nil)
-      @rectype = "TLSA"
+      @rectype = 'TLSA'
     end
 
     # This setter initializes the selector

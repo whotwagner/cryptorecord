@@ -44,7 +44,7 @@ module Cryptorecord
     def initialize(args = {})
       self.uid = args.fetch(:uid, nil)
       self.key = args.fetch(:key, nil)
-      @rectype = "OPENPGPKEY"
+      @rectype = 'OPENPGPKEY'
     end
 
     # This setter takes the argument val to create a Mail::Address-object.
