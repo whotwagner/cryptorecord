@@ -33,6 +33,8 @@ module Cryptorecord
   #   @return [Integer] sha1 = 1, sha256 = 2
   # @!attribute [r]  key
   #   @return [String] the ssh-host-key, without the type and comment
+  # @!attribute [r] type
+  #   @return [String] "SSHFP"
   # @!attribute host
   #   @return [String] the fqdn-host
   class Sshfp
@@ -52,7 +54,7 @@ module Cryptorecord
       self.digest = args.fetch(:digest, 2)
       @host = args.fetch(:host, 'localhost')
       keyfile = args.fetch(:keyfile, nil)
-
+      @type = "SSHFP"
       read_file(keyfile) unless keyfile.nil?
     end
 
@@ -125,7 +127,7 @@ module Cryptorecord
     # @raise Cryptorecord::KeyError
     def to_s
       raise Cryptorecord::KeyError, 'No certificate defined' if @key.nil?
-      "#{left} IN SSHFP #{right}"
+      "#{left} IN #{@type} #{right}"
     end
 
     private

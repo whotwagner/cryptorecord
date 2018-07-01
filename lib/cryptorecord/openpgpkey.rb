@@ -30,8 +30,10 @@ module Cryptorecord
   #   @return [Mail::Address] the userid or nil
   # @!attribute [r] key
   #   @return [String] the pgp-key as a string
+  # @!attribute [r] type
+  #   @return [String] "OPENPGPKEY"
   class Openpgpkey
-    attr_reader :uid, :key
+    attr_reader :uid, :key, :type
 
     # This constructor initializes uid and key by calling the setters.
     # @see uid=
@@ -42,6 +44,7 @@ module Cryptorecord
     def initialize(args = {})
       self.uid = args.fetch(:uid, nil)
       self.key = args.fetch(:key, nil)
+      @type = "OPENPGPKEY"
     end
 
     # This setter takes the argument val to create a Mail::Address-object.
@@ -125,7 +128,7 @@ module Cryptorecord
     #
     # @return [String] openpgpkey dns-record as defined in rfc7929
     def to_s
-      "#{left} IN OPENPGPKEY #{right}"
+      "#{left} IN #{@type} #{right}"
     end
 
     private
