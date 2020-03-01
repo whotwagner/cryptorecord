@@ -20,5 +20,5 @@
 #++
 module Cryptorecord
   # Guess what..
-  VERSION = '0.9.5'.freeze
+  VERSION = '0.9.6'.freeze
 end
