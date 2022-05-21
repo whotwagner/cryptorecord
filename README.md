@@ -46,7 +46,7 @@ docker build -t cryptorecord .
 
 Lets mount the certificate in /certs and run tlsarecord using this cert:
 ```
-podman run --rm -v /etc/ssl/certs/ssl-cert-snakeoil.pem:/certs/ssl-cert-snakeoil.pem cryptorecord tlsarecord -f /certs/ssl-cert-snakeoil.pem
+docker run --rm -v /etc/ssl/certs/ssl-cert-snakeoil.pem:/certs/ssl-cert-snakeoil.pem cryptorecord tlsarecord -f /certs/ssl-cert-snakeoil.pem
 ```
 
 ## Usage
