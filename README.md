@@ -34,6 +34,21 @@ Or install it yourself as:
 
     $ gem install cryptorecord
 
+## Docker
+
+### Build Image
+
+```
+docker build -t cryptorecord .
+```
+
+### Run container
+
+Lets mount the certificate in /certs and run tlsarecord using this cert:
+```
+podman run --rm -v /etc/ssl/certs/ssl-cert-snakeoil.pem:/certs/ssl-cert-snakeoil.pem cryptorecord tlsarecord -f /certs/ssl-cert-snakeoil.pem
+```
+
 ## Usage
 
 This gem comes with some example scripts like:
@@ -130,6 +145,12 @@ puts opk
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. 
+
+## Run tests
+
+```
+docker run --rm --entrypoint "rake" cryptorecord
+```
 
 ## Contributing
 
